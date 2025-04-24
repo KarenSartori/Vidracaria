@@ -1,0 +1,87 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #1A3439, #3e8e9c);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+  
+.login-container {
+    background-color: #ffffff;
+    padding: 50px;
+    width: 400px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    text-align: center;
+}
+  
+.login-logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+}
+  
+.login-container h2 {
+    margin-bottom: 30px;
+    color: #1A3439;
+}
+  
+.login-container input {
+    width: 100%;
+    padding: 14px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 15px;
+    box-sizing: border-box;
+}  
+  
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: #1A3439;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+  
+button:hover {
+    background-color: #265d68;
+}
+
+.password-container {
+    position: relative;
+    width: 100%;
+}
+  
+.password-container input {
+    width: 100%;
+    padding: 14px;
+    padding-right: 45px; /* espaço pro ícone */
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+  
+.eye-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #666;
+    font-size: 18px;
+}
+   
+#errorMessage {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+}
+  

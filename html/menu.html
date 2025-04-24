@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Vidraçaria</title>
+  <link rel="stylesheet" href="../css/menu.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="dashboard">
+    <!-- MENU LATERAL -->
+    <aside class="sidebar">
+      <div class="logo">
+        <img src="../imagens/logo.png" alt="Logo Vidraçaria">
+        <h2>Vidraçaria</h2>
+      </div>
+      <nav>
+        <a href="menu.html" class="active"><i class="fa-solid fa-house"></i>Menu Principal</a>
+        <a href="cadastro_cliente.html"><i class="fa-solid fa-user-plus"></i> Clientes</a>
+        <a href="cadastro_funcionario.html"><i class="fa-solid fa-users"></i> Funcionários</a>
+        <a href="listar_produtos.html"><i class="fa-solid fa-screwdriver-wrench"></i> Produtos</a>
+        <a href="listar_materiais.html"><i class="fa-solid fa-screwdriver-wrench"></i> Materiais</a>
+        <a href="orcamento.html"><i class="fa-solid fa-file-invoice-dollar"></i> Orçamentos</a>
+      </nav>
+      <button onclick="window.location.href='login.html'" class="logout-btn">
+        <i class="fa-solid fa-right-from-bracket"></i> Sair
+      </button>
+    </aside>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="main-content">
+      <header class="main-header">
+        <div class="user-info">
+          <i class="fa-solid fa-user-circle"></i>
+          <span>Bem-vindo, usuario?!</span>
+        </div>
+      </header>
+
+      <section class="cards">
+        <div class="card" onclick="location.href='cadastro_cliente.html'">
+          <i class="fa-solid fa-user-plus"></i>
+          <h3>Cadastro de Cliente</h3>
+        </div>
+        <div class="card" onclick="location.href='cadastro_funcionario.html'">
+          <i class="fa-solid fa-users"></i>
+          <h3>Cadastro de Funcionário</h3>
+        </div>
+        <div class="card" onclick="location.href='listar_produtos.html'">
+          <i class="fa-solid fa-screwdriver-wrench"></i>
+          <h3>Editar Produtos</h3>
+        </div>
+        <div class="card" onclick="location.href='listar_materiais.html'">
+          <i class="fa-solid fa-screwdriver-wrench"></i>
+          <h3>Editar Materiais</h3>
+        </div>
+        <div class="card" onclick="location.href='orcamento.html'">
+          <i class="fa-solid fa-file-invoice-dollar"></i>
+          <h3>Gerar Orçamento</h3>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- RODAPÉ -->
+  <footer class="footer">
+    <p>© 2025 Vidraçaria | Todos os direitos reservados</p>
+  </footer> 
+
+  <script src="../js/menu.js"></script>
+</body>
+</html>
