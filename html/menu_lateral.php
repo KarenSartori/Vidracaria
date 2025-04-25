@@ -1,8 +1,7 @@
 <!-- menu_lateral.php -->
 <aside class="sidebar">
   <div class="logo">
-    <img src="../imagens/logo.png" alt="Logo Vidraçaria">
-    <h2>Vidraçaria</h2>
+    <img src="../imagens/image.png" alt="Logo Vidraçaria">
   </div>
   <nav>
     <a href="menu.php"><i class="fa-solid fa-house"></i> Menu Principal</a>

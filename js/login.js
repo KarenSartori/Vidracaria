@@ -5,7 +5,7 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
     const password = document.getElementById("password").value;
   
     if (username === "admin" && password === "1234") {
-      window.location.href = "../html/menu.html";
+      window.location.href = "../html/menu.php";
     } else {
       document.getElementById("errorMessage").textContent = "Usuário ou senha inválidos.";
     }
