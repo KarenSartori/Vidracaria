@@ -31,53 +31,58 @@
       <h2>Gerar Orçamento</h2>
 
       <div class="form-section">
-  <h2>Orçamento</h2>
-  <button class="btn-pdf" type="button" onclick="gerarPDF()">
-  <i class="fa-solid fa-file-pdf"></i> Gerar PDF
-</button>
+        <h2>Orçamento</h2>
+        <button class="btn-pdf" type="button" onclick="gerarPDF()">
+          <i class="fa-solid fa-file-pdf"></i> Gerar PDF
+        </button>
 
-  <div class="orcamento-container">
-    <!-- Coluna da esquerda: Inputs -->
-    <div class="orcamento-form">
-      <label for="produto">Produto:</label>
-      <select id="produto" onchange="carregarMateriaisDoProduto()">
-        <option value="">Selecione um produto</option>
-      </select>
+        <div class="orcamento-container">
+          <!-- Coluna da esquerda: Inputs -->
+          <div class="orcamento-form">
 
-      <label for="larguraVidro">Largura do vidro (m):</label>
-      <input type="number" id="larguraVidro" step="0.01">
+            <label for="cliente">Cliente:</label>
+            <select id="cliente">
+              <option value="">Selecione um cliente</option>
+            </select>
 
-      <label for="alturaVidro">Altura do vidro (m):</label>
-      <input type="number" id="alturaVidro" step="0.01">
+            <label for="produto">Produto:</label>
+            <select id="produto" onchange="carregarMateriaisDoProduto()">
+              <option value="">Selecione um produto</option>
+            </select>
 
-      <label for="precoVidro">Preço por m² do vidro: tem q pegar automatico isso</label>
-      <input type="number" id="precoVidro" step="0.01" placeholder="Informe o preço manualmente">
+            <label for="larguraVidro">Largura do vidro (m):</label>
+            <input type="number" id="larguraVidro" step="0.01">
 
-      <button onclick="calcularTotal()">Calcular Orçamento</button>
+            <label for="alturaVidro">Altura do vidro (m):</label>
+            <input type="number" id="alturaVidro" step="0.01">
+
+            <label for="precoVidro">Preço por m² do vidro:</label>
+            <input type="number" id="precoVidro" step="0.01" placeholder="Informe o preço manualmente">
+
+            <button onclick="calcularTotal()">Calcular Orçamento</button>
+
+            <p id="resultadoFinal"></p>
+          </div>
+
+          <!-- Coluna da direita: Tabela -->
+          <div id="areaMateriais" class="orcamento-materiais hidden">
+            <h3>Materiais</h3>
+            <table id="tabelaMateriais">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Peso kg/m</th>
+                  <th>Valor kg Alumínio</th>
+                  <th>Tipo de Cálculo</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
       <p id="resultadoFinal"></p>
-    </div>
-
-    <!-- Coluna da direita: Tabela -->
-    <div id="areaMateriais" class="orcamento-materiais hidden">
-      <h3>Materiais</h3>
-      <table id="tabelaMateriais">
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Peso kg/m</th>
-            <th>Valor kg Alumínio</th>
-            <th>Tipo de Cálculo</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-    <p id="resultadoFinal"></p>
-  </div>
     </main>
   </div>
 
@@ -86,5 +91,6 @@
   </footer>
 
   <script src="../js/orcamento.js"></script>
+
 </body>
 </html>

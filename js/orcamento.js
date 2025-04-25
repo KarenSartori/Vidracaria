@@ -1,3 +1,22 @@
+async function carregarClientes() {
+  try {
+    const resp = await fetch('../php/cliente_orcamento.php');
+    const clientes = await resp.json();
+    console.log('Clientes carregados:', clientes); 
+
+    const selectCliente = document.getElementById('cliente');
+    clientes.forEach(cliente => {
+      const option = document.createElement('option');
+      option.value = cliente.id;
+      option.textContent = cliente.nome;
+      selectCliente.appendChild(option);
+    });
+  } catch (error) {
+    console.error('Erro ao carregar clientes:', error);
+  }
+}
+
+
 async function carregarProdutos() {
   const resp = await fetch('../php/listar_produtos.php');
   const produtos = await resp.json();
@@ -89,12 +108,16 @@ function calcularTotal() {
 
 // Inicialização
 carregarProdutos();
+carregarClientes();
 
 async function gerarPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
-  const produto = document.getElementById('produto').options[document.getElementById('produto').selectedIndex].text;
+  const clienteSelect = document.getElementById('cliente');
+  const clienteNome = clienteSelect.options[clienteSelect.selectedIndex]?.text || '---';
+
+  const produto = document.getElementById('produto').options[document.getElementById('produto').selectedIndex]?.text || '---';
   const largura = document.getElementById('larguraVidro').value || '---';
   const altura = document.getElementById('alturaVidro').value || '---';
 
@@ -118,33 +141,44 @@ async function gerarPDF() {
 
     let y = 60;
 
+    // --- DADOS DO CLIENTE ---
     doc.setFontSize(14);
     doc.setFont(undefined, 'bold');
-    doc.text(`Produto:`, 10, y);
+    doc.text('Cliente:', 10, y);
+    doc.setFont(undefined, 'normal');
+    doc.text(clienteNome, 35, y);
+    y += 10;
+
+    // --- PRODUTO ---
+    doc.setFont(undefined, 'bold');
+    doc.text('Produto:', 10, y);
     doc.setFont(undefined, 'normal');
     doc.text(produto, 35, y);
     y += 10;
 
+    // --- LARGURA ---
     doc.setFont(undefined, 'bold');
-    doc.text(`Largura:`, 10, y);
+    doc.text('Largura:', 10, y);
     doc.setFont(undefined, 'normal');
-    doc.text(`${largura} mm`, 35, y);
+    doc.text(`${largura} m`, 35, y);
     y += 8;
 
+    // --- ALTURA ---
     doc.setFont(undefined, 'bold');
-    doc.text(`Altura:`, 10, y);
+    doc.text('Altura:', 10, y);
     doc.setFont(undefined, 'normal');
-    doc.text(`${altura} mm`, 35, y);
+    doc.text(`${altura} m`, 35, y);
     y += 10;
 
+    // --- VALORES ---
     doc.setFont(undefined, 'bold');
-    doc.text(`Total com Fechadura contra parede (R$240):`, 10, y);
+    doc.text('Total com Fechadura contra parede (R$240):', 10, y);
     doc.setFont(undefined, 'normal');
     doc.text(`R$ ${valorFechadura1}`, 130, y);
     y += 10;
 
     doc.setFont(undefined, 'bold');
-    doc.text(`Total com Bate Fecha (R$100):`, 10, y);
+    doc.text('Total com Bate Fecha (R$100):', 10, y);
     doc.setFont(undefined, 'normal');
     doc.text(`R$ ${valorFechadura2}`, 90, y);
 
