@@ -6,49 +6,7 @@
   <link rel="stylesheet" href="../css/menu.css">
   <link rel="stylesheet" href="../css/listar_materiais.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      margin: 0;
-    }
-
-    .form-section {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 800px;
-      margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    input, select {
-      padding: 10px;
-      margin: 10px 0;
-      width: 100%;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    table {
-      width: 100%;
-      margin-top: 20px;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 10px;
-      border: 1px solid #ddd;
-      text-align: center;
-    }
-
-    #resultadoFinal {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-      color: green;
-    }
-  </style>
+  <link rel="stylesheet" href="../css/orcamento.css">
 </head>
 <body>
   <div class="dashboard">

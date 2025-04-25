@@ -46,6 +46,11 @@
     </main>
   </div>
 
+  <!-- RODAPÉ -->
+  <footer class="footer">
+    <p>© 2025 Vidraçaria | Todos os direitos reservados</p>
+  </footer>
+
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       const response = await fetch("../php/listar_clientes.php");
