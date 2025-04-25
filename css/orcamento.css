@@ -63,19 +63,30 @@ h2 {
     background: #ffffff;
     padding: 25px;
     border-radius: 12px;
-    max-width: 850px;
+    max-width: 1100px;
     margin: 0 auto;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.form-section label {
+  }
+  
+  .orcamento-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+  }
+  
+  .orcamento-form, .orcamento-materiais {
+    flex: 1;
+  }
+  
+  .orcamento-form label {
     display: block;
-    margin-top: 15px;
+    margin-top: 12px;
     font-weight: 600;
     color: #333;
-}
-
-input, select {
+  }
+  
+  .orcamento-form input,
+  .orcamento-form select {
     padding: 12px;
     margin-top: 5px;
     width: 100%;
@@ -83,9 +94,9 @@ input, select {
     border: 1px solid #ccc;
     font-size: 15px;
     box-sizing: border-box;
-}
-
-button {
+  }
+  
+  .orcamento-form button {
     background-color: #1A3439;
     color: white;
     border: none;
@@ -94,43 +105,70 @@ button {
     border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #265d68;
-}
-
-table {
     width: 100%;
-    margin-top: 25px;
+  }
+  
+  .orcamento-form button:hover {
+    background-color: #265d68;
+  }
+  
+  .orcamento-materiais table {
+    width: 100%;
     border-collapse: collapse;
     background: #fff;
     border-radius: 8px;
     overflow: hidden;
-}
-
-th, td {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  
+  .orcamento-materiais th, 
+  .orcamento-materiais td {
     padding: 12px 15px;
     border: 1px solid #ddd;
     text-align: center;
     font-size: 14px;
-}
-
-th {
+  }
+  
+  .orcamento-materiais th {
     background-color: #1A3439;
     color: white;
     font-weight: bold;
-}
-
-#resultadoFinal {
-    margin-top: 25px;
-    font-size: 20px;
+  }
+  
+  #resultadoFinal {
+    margin-top: 20px;
+    font-size: 18px;
     font-weight: bold;
     color: #228B22;
     text-align: center;
-}
-
-.hidden {
+  }
+  
+  .hidden {
     display: none;
-}
+  }
+
+  .btn-pdf {
+    background-color: #e63946;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .btn-pdf:hover {
+    background-color: #ba2d3b;
+    transform: scale(1.03);
+  }
+  
+  .btn-pdf i {
+    font-size: 16px;
+  }
+    

@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="../css/listar_materiais.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="../css/orcamento.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
   <div class="dashboard">
@@ -29,31 +31,35 @@
       <h2>Gerar Orçamento</h2>
 
       <div class="form-section">
-    <h2>Orçamento</h2>
-    <label for="produto">Produto:</label>
-    <select id="produto" onchange="carregarMateriaisDoProduto()">
-      <option value="">Selecione um produto</option>
-    </select>
+  <h2>Orçamento</h2>
+  <button class="btn-pdf" type="button" onclick="gerarPDF()">
+  <i class="fa-solid fa-file-pdf"></i> Gerar PDF
+</button>
 
-    <label for="larguraVidro">Largura do vidro (m):</label>
-    <input type="number" id="larguraVidro" step="0.01">
+  <div class="orcamento-container">
+    <!-- Coluna da esquerda: Inputs -->
+    <div class="orcamento-form">
+      <label for="produto">Produto:</label>
+      <select id="produto" onchange="carregarMateriaisDoProduto()">
+        <option value="">Selecione um produto</option>
+      </select>
 
-    <label for="alturaVidro">Altura do vidro (m):</label>
-    <input type="number" id="alturaVidro" step="0.01">
+      <label for="larguraVidro">Largura do vidro (m):</label>
+      <input type="number" id="larguraVidro" step="0.01">
 
-    <label for="precoVidro">Preço por m² do vidro:</label>
-<input type="number" id="precoVidro" step="0.01" placeholder="Informe o preço manualmente">
+      <label for="alturaVidro">Altura do vidro (m):</label>
+      <input type="number" id="alturaVidro" step="0.01">
 
+      <label for="precoVidro">Preço por m² do vidro: tem q pegar automatico isso</label>
+      <input type="number" id="precoVidro" step="0.01" placeholder="Informe o preço manualmente">
 
-    <!-- <label for="tipoFechadura">Tipo de Fechadura:</label>
-    <select id="tipoFechadura">
-      <option value="fechadura">Fechadura contra parede (R$240,00)</option>
-      <option value="bateFecha">Bate Fecha (R$100,00)</option>
-    </select> -->
+      <button onclick="calcularTotal()">Calcular Orçamento</button>
 
-    <button onclick="calcularTotal()">Calcular Orçamento</button>
+      <p id="resultadoFinal"></p>
+    </div>
 
-    <div id="areaMateriais" class="hidden">
+    <!-- Coluna da direita: Tabela -->
+    <div id="areaMateriais" class="orcamento-materiais hidden">
       <h3>Materiais</h3>
       <table id="tabelaMateriais">
         <thead>
@@ -67,6 +73,8 @@
         <tbody></tbody>
       </table>
     </div>
+  </div>
+</div>
 
     <p id="resultadoFinal"></p>
   </div>
