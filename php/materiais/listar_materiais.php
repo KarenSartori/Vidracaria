@@ -1,5 +1,5 @@
 <?php
-include 'conexao.php';
+include '../conexao.php';
 
 $resultado = $conn->query("SELECT * FROM materiais");
 

@@ -1,5 +1,5 @@
 <?php
-include 'conexao.php';
+include '../conexao.php';
 
 $id = $_GET['id'];
 $stmt = $conn->prepare("SELECT * FROM materiais WHERE id = ?");

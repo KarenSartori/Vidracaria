@@ -38,7 +38,7 @@ if ($tipo === 'pf') {
 
 // Executa e verifica
 if ($stmt->execute()) {
-    echo "<script>alert('Cliente cadastrado com sucesso! - TESTEEEEEEE'); window.location.href='../html/cadastro_cliente.html';</script>";
+    echo "<script>alert('Cliente cadastrado com sucesso! - TESTEEEEEEE'); window.location.href='../html/cadastro_cliente.php';</script>";
 } else {
     echo "Erro ao cadastrar: " . $stmt->error;
 }

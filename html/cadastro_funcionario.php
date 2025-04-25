@@ -9,29 +9,12 @@
 </head>
 <body>
   <div class="dashboard">
-    <!-- MENU LATERAL -->
-    <aside class="sidebar">
-        <div class="logo">
-          <img src="../imagens/logo.png" alt="Logo Vidraçaria">
-          <h2>Vidraçaria</h2>
-        </div>
-        <nav>
-          <a href="menu.html"><i class="fa-solid fa-house"></i>Menu Principal</a>
-          <a href="cadastro_cliente.html"><i class="fa-solid fa-user-plus"></i> Clientes</a>
-          <a href="cadastro_funcionario.html" class="active"><i class="fa-solid fa-users"></i> Funcionários</a>
-          <a href="listar_produtos.html"><i class="fa-solid fa-screwdriver-wrench"></i> Produtos</a>
-          <a href="listar_materiais.html"><i class="fa-solid fa-screwdriver-wrench"></i> Materiais</a>
-          <a href="orcamento.html"><i class="fa-solid fa-file-invoice-dollar"></i> Orçamentos</a>
-        </nav>
-        <button onclick="window.location.href='login.html'" class="logout-btn">
-          <i class="fa-solid fa-right-from-bracket"></i> Sair
-        </button>
-      </aside>
+  <?php include 'menu_lateral.php'; ?>
 
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="main-content">
       <div class="top-actions">
-        <button class="btn-voltar-inicio" onclick="window.location.href='menu.html'">
+        <button class="btn-voltar-inicio" onclick="window.location.href='menu.php'">
           <i class="fa-solid fa-arrow-left"></i> Início
         </button>
       </div>

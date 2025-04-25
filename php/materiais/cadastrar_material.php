@@ -1,5 +1,5 @@
 <?php
-include 'conexao.php';
+include '../conexao.php';
 
 $nome = $_POST['nome'];
 $peso_kg_m = $_POST['peso_kg_m'];
