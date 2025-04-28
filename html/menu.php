@@ -12,10 +12,9 @@
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="main-content">
       <header class="main-header">
-        <div class="user-info">
-          <i class="fa-solid fa-user-circle"></i>
-          <span>Bem-vindo, usuario?!</span>
-        </div>
+        <button class="logout-button" onclick="window.location.href='login.html'">
+          <i class="fa-solid fa-right-from-bracket"></i> Sair
+        </button>
       </header>
 
       <section class="cards">
@@ -48,9 +47,9 @@
   </div>
 
   <!-- RODAPÉ -->
-  <footer class="footer">
+  <!-- <footer class="footer">
     <p>© 2025 Vidraçaria | Todos os direitos reservados</p>
-  </footer> 
+  </footer>  -->
 
   <script src="../js/menu.js"></script>
 </body>

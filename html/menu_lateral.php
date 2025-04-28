@@ -12,7 +12,7 @@
     <a href="listar_materiais.php"><i class="fa-solid fa-screwdriver-wrench"></i> Materiais</a>
     <a href="orcamento.php"><i class="fa-solid fa-file-invoice-dollar"></i> Orçamentos</a>
   </nav>
-  <button onclick="window.location.href='login.html'" class="logout-btn">
+  <!-- <button onclick="window.location.href='login.html'" class="logout-btn">
     <i class="fa-solid fa-right-from-bracket"></i> Sair
-  </button>
+  </button> -->
 </aside>

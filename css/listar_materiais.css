@@ -110,7 +110,7 @@ td {
   color: #1A3439;
 }
   
-.btn-voltar-inicio {
+/* .btn-voltar-inicio {
   background-color: #1A3439;
   color: white;
   padding: 10px 20px;
@@ -125,7 +125,7 @@ td {
   
 .btn-voltar-inicio:hover {
   background-color: #265d68;
-}
+} */
 
 .btn-salvar {
   background-color: #1A3439;

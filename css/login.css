@@ -18,7 +18,7 @@ body {
 }
   
 .login-logo {
-    width: 180px;
+    width: 260px;
     height: 120px;
     margin-bottom: 20px;
 }
@@ -62,7 +62,7 @@ button:hover {
 .password-container input {
     width: 100%;
     padding: 14px;
-    padding-right: 45px; /* espaço pro ícone */
+    padding-right: 45px;
     font-size: 15px;
     border: 1px solid #ccc;
     border-radius: 10px;

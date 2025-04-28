@@ -17,14 +17,11 @@
         <button class="btn-voltar-inicio" onclick="window.location.href='menu.php'">
           <i class="fa-solid fa-arrow-left"></i> Início
         </button>
-      </div>
 
-      <header class="main-header">
-        <div class="user-info">
-            <i class="fa-solid fa-user-circle"></i>
-            <span>Bem-vindo, usuario?!</span>
-        </div>
-      </header>
+        <button class="logout-button" onclick="window.location.href='login.html'">
+          <i class="fa-solid fa-right-from-bracket"></i> Sair
+        </button>
+      </div>
 
       <section class="form-section">
         <form action="../php/processa_funcionario.php" method="POST" class="form-cadastro">
@@ -69,8 +66,8 @@
   </div>
 
   <!-- RODAPÉ -->
-  <footer class="footer">
+  <!-- <footer class="footer">
     <p>© 2025 Vidraçaria | Todos os direitos reservados</p>
-  </footer>
+  </footer> -->
 </body>
 </html>

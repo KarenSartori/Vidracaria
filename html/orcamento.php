@@ -19,16 +19,13 @@
         <button class="btn-voltar-inicio" onclick="window.location.href='menu.php'">
           <i class="fa-solid fa-arrow-left"></i> Início
         </button>
+
+        <button class="logout-button" onclick="window.location.href='login.html'">
+          <i class="fa-solid fa-right-from-bracket"></i> Sair
+        </button>
       </div>
 
-      <header class="main-header">
-        <div class="user-info">
-          <i class="fa-solid fa-user-circle"></i>
-          <span>Bem-vindo, usuário!</span>
-        </div>
-      </header>
-
-      <h2>Gerar Orçamento</h2>
+      <!-- <h2>Gerar Orçamento</h2> -->
 
       <div class="form-section">
         <h2>Orçamento</h2>
@@ -86,9 +83,9 @@
     </main>
   </div>
 
-  <footer class="footer">
+  <!-- <footer class="footer">
     <p>© 2025 Vidraçaria | Todos os direitos reservados</p>
-  </footer>
+  </footer> -->
 
   <script src="../js/orcamento.js"></script>
 
