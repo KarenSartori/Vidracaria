@@ -72,7 +72,8 @@ function calcularTotal() {
   }
 
   let totalAluminio = 0;
-  let log = [];
+  const tbodyResultados = document.getElementById('tabelaResultados').querySelector('tbody');
+  tbodyResultados.innerHTML = ""; // Limpa a tabela de resultados
 
   materiais.forEach(mat => {
     let metro = 0;
@@ -86,24 +87,43 @@ function calcularTotal() {
     const precoKg = parseFloat(mat.peso_kg_aluminio);
     const subtotal = metro * peso * precoKg;
     totalAluminio += subtotal;
-    log.push(`${mat.nome}: ${peso.toFixed(3)}kg/m * ${metro.toFixed(2)}m * R$${precoKg} = R$${subtotal.toFixed(2)}`);
+
+    // Linha do material no resumo final
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${mat.nome}</td>
+      <td>${peso.toFixed(3)} kg/m × ${metro.toFixed(2)} m × R$${precoKg.toFixed(2)}</td>
+      <td><strong>R$ ${subtotal.toFixed(2)}</strong></td>
+    `;
+    tbodyResultados.appendChild(tr);
   });
 
   const totalVidro = largura * altura * precoVidro;
-  totalComFechadura240 = totalVidro + totalAluminio + 240;
-  totalComFechadura100 = totalVidro + totalAluminio + 100;
+  const totalComFechadura240 = totalVidro + totalAluminio + 240;
+  const totalComFechadura100 = totalVidro + totalAluminio + 100;
 
-  const detalhes = `
-    <strong>Detalhamento dos cálculos:</strong><br>
-    <ul>${log.map(l => `<li>${l}</li>`).join("")}</ul>
-    <p>Vidro (R$${precoVidro}/m²): ${largura}m x ${altura}m = <strong>R$${totalVidro.toFixed(2)}</strong></p>
-    <p>Alumínio: <strong>R$${totalAluminio.toFixed(2)}</strong></p>
-    <hr>
-    <h3>Total com Fechadura contra parede (R$240): R$${totalComFechadura240.toFixed(2)}</h3>
-    <h3>Total com Bate Fecha (R$100): R$${totalComFechadura100.toFixed(2)}</h3>
-  `;
+  // Linhas de totais no resumo
+  const linhasTotais = [
+    { label: 'Total Alumínio', valor: totalAluminio },
+    { label: 'Total Vidro', valor: totalVidro },
+    { label: 'Total com Fechadura contra parede (R$240)', valor: totalComFechadura240 },
+    { label: 'Total com Bate Fecha (R$100)', valor: totalComFechadura100 },
+  ];
 
-  document.getElementById("resultadoFinal").innerHTML = detalhes;
+  linhasTotais.forEach(item => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td colspan="2"><strong>${item.label}</strong></td>
+      <td><strong>R$ ${item.valor.toFixed(2)}</strong></td>
+    `;
+    tbodyResultados.appendChild(tr);
+  });
+
+  // Mostra o resumo final
+  document.getElementById('areaResultados').classList.remove('hidden');
+
+  // Esconde o texto separado de resultado
+  document.getElementById("resultadoFinal").innerHTML = "";
 }
 
 // Inicialização
@@ -117,12 +137,11 @@ async function gerarPDF() {
   const clienteSelect = document.getElementById('cliente');
   const clienteNome = clienteSelect.options[clienteSelect.selectedIndex]?.text || '---';
 
-  const produto = document.getElementById('produto').options[document.getElementById('produto').selectedIndex]?.text || '---';
+  const produtoSelect = document.getElementById('produto');
+  const produtoNome = produtoSelect.options[produtoSelect.selectedIndex]?.text || '---';
+
   const largura = document.getElementById('larguraVidro').value || '---';
   const altura = document.getElementById('alturaVidro').value || '---';
-
-  const valorFechadura1 = totalComFechadura240.toFixed(2);
-  const valorFechadura2 = totalComFechadura100.toFixed(2);
 
   const dataHora = new Date().toLocaleString('pt-BR');
 
@@ -139,48 +158,73 @@ async function gerarPDF() {
     doc.setFont(undefined, 'normal');
     doc.text(dataHora, 150, 26);
 
-    let y = 60;
+    let y = 50;
 
-    // --- DADOS DO CLIENTE ---
+    // Dados do cliente/produto
     doc.setFontSize(14);
     doc.setFont(undefined, 'bold');
     doc.text('Cliente:', 10, y);
     doc.setFont(undefined, 'normal');
-    doc.text(clienteNome, 35, y);
-    y += 10;
+    doc.text(clienteNome, 40, y);
 
-    // --- PRODUTO ---
+    y += 10;
     doc.setFont(undefined, 'bold');
     doc.text('Produto:', 10, y);
     doc.setFont(undefined, 'normal');
-    doc.text(produto, 35, y);
-    y += 10;
+    doc.text(produtoNome, 40, y);
 
-    // --- LARGURA ---
+    y += 10;
     doc.setFont(undefined, 'bold');
     doc.text('Largura:', 10, y);
     doc.setFont(undefined, 'normal');
-    doc.text(`${largura} m`, 35, y);
-    y += 8;
+    doc.text(`${largura} m`, 40, y);
 
-    // --- ALTURA ---
+    y += 8;
     doc.setFont(undefined, 'bold');
     doc.text('Altura:', 10, y);
     doc.setFont(undefined, 'normal');
-    doc.text(`${altura} m`, 35, y);
-    y += 10;
+    doc.text(`${altura} m`, 40, y);
 
-    // --- VALORES ---
-    doc.setFont(undefined, 'bold');
-    doc.text('Total com Fechadura contra parede (R$240):', 10, y);
-    doc.setFont(undefined, 'normal');
-    doc.text(`R$ ${valorFechadura1}`, 130, y);
-    y += 10;
+    y += 15;
 
-    doc.setFont(undefined, 'bold');
-    doc.text('Total com Bate Fecha (R$100):', 10, y);
-    doc.setFont(undefined, 'normal');
-    doc.text(`R$ ${valorFechadura2}`, 90, y);
+    // --- Montando a tabela a partir de #tabelaResultados ---
+
+    const headers = [['Nome', 'Cálculo', 'Valor (R$)']];
+    const body = [];
+
+    const linhasTabela = document.querySelectorAll('#tabelaResultados tbody tr');
+
+    linhasTabela.forEach((linha, index) => {
+      const cols = linha.querySelectorAll('td');
+      const row = [];
+      cols.forEach(col => row.push(col.innerText.trim()));
+      body.push(row);
+    });
+
+    doc.autoTable({
+      head: headers,
+      body: body,
+      startY: y,
+      theme: 'grid',
+      headStyles: { fillColor: [26, 52, 57], textColor: 255 },
+      bodyStyles: { fontSize: 10 },
+      didParseCell: function (data) {
+        const rowIndex = data.row.index;
+        const totalRows = linhasTabela.length;
+
+        if (rowIndex === totalRows - 1) {
+          data.cell.styles.fillColor = [255, 243, 205]; 
+          data.cell.styles.fontStyle = 'bold';
+        }
+        if (rowIndex === totalRows - 2) { 
+          data.cell.styles.fillColor = [230, 242, 255]; 
+          data.cell.styles.fontStyle = 'bold';
+        }
+        if (rowIndex >= totalRows - 4) { 
+          data.cell.styles.fontStyle = 'bold';
+        }
+      }
+    });
 
     doc.save('orcamento_vidracaria.pdf');
   };

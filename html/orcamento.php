@@ -65,18 +65,33 @@
           <div id="areaMateriais" class="orcamento-materiais hidden">
             <h3>Materiais</h3>
             <table id="tabelaMateriais">
-              <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Peso kg/m</th>
-                  <th>Valor kg Alumínio</th>
-                  <th>Tipo de Cálculo</th>
-                </tr>
-              </thead>
+            <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Peso (Kg/m)</th>
+              <th>Valor (R$)</th>
+              <th>Cálculo</th>
+            </tr>
+          </thead>
               <tbody></tbody>
             </table>
           </div>
         </div>
+      </div>
+
+      <!-- NOVA TABELA DE RESULTADOS DEPOIS DO ORÇAMENTO -->
+      <div id="areaResultados" class="orcamento-resultados hidden">
+        <h2>Resumo do Orçamento</h2>
+        <table id="tabelaResultados">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Cálculo</th>
+              <th>Valor (R$)</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
       </div>
 
       <p id="resultadoFinal"></p>
