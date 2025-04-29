@@ -149,6 +149,27 @@ h2 {
     background-color: #ba2d3b;
     transform: scale(1.03);
   }
+
+  .btn-limpar {
+    background-color: rgba(12, 12, 175, 0.892);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .btn-limpar:hover {
+    background-color: rgb(8, 8, 133);
+    transform: scale(1.03);
+  }
   
   .btn-pdf i {
     font-size: 16px;

@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <tr>
               <td>${mat.nome}</td>
               <td>${mat.peso_kg_m}</td>
-              <td>${mat.peso_kg_aluminio}</td>
+              <td>${parseFloat(mat.peso_kg_aluminio).toFixed(2)}</td>
             </tr>
           `).join('')}
         </tbody>

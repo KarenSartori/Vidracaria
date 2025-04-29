@@ -1,3 +1,25 @@
+function limparOrcamento() {
+  document.getElementById('cliente').selectedIndex = 0;
+  document.getElementById('produto').selectedIndex = 0;
+
+  document.getElementById('larguraVidro').value = '';
+  document.getElementById('larguraBox1').value = '';
+  document.getElementById('larguraBox2').value = '';
+  document.getElementById('alturaVidro').value = '';
+
+  document.getElementById('areaMateriais').classList.add('hidden');
+  document.getElementById('areaResultados').classList.add('hidden');
+
+  document.querySelector('#tabelaMateriais tbody').innerHTML = '';
+  document.querySelector('#tabelaResultados tbody').innerHTML = '';
+
+  document.getElementById('resultadoFinal').innerHTML = '';
+
+  document.getElementById('campoLarguraSimples').style.display = 'block';
+  document.getElementById('campoLarguraDupla').style.display = 'none';
+  document.getElementById('campoAltura').style.display = 'block';
+}
+
 async function carregarClientes() {
   try {
     const resp = await fetch('../php/cliente_orcamento.php');
@@ -52,7 +74,7 @@ async function carregarMateriaisDoProduto() {
     tr.innerHTML = `
       <td>${mat.nome}</td>
       <td>${mat.peso_kg_m}</td>
-      <td>${mat.peso_kg_aluminio}</td>
+      <td>${parseFloat(mat.peso_kg_aluminio).toFixed(2)}</td>
       <td>${mat.tipo_calculo}</td>
       <td>${mat.tipo}</td>
     `;
@@ -245,7 +267,7 @@ async function gerarPDF() {
   const clienteSelect = document.getElementById('cliente');
   const clienteNome = clienteSelect.options[clienteSelect.selectedIndex]?.text || '---';
 
-  const produtoSelect = document.getElementById('produto'); // <- corrigido aqui
+  const produtoSelect = document.getElementById('produto');
   const produtoNome = produtoSelect.options[produtoSelect.selectedIndex]?.text.toLowerCase() || '';
 
   let largura, altura;
@@ -268,7 +290,7 @@ async function gerarPDF() {
     doc.addImage(logo, 'PNG', 10, 10, 40, 20);
 
     doc.setFont('helvetica');
-    doc.setFontSize(12);
+    doc.setFontSize(10);
     doc.setFont(undefined, 'bold');
     doc.text('Data/Hora:', 150, 20);
     doc.setFont(undefined, 'normal');
@@ -276,30 +298,29 @@ async function gerarPDF() {
 
     let y = 50;
 
-    // Dados do cliente/produto
-    doc.setFontSize(14);
+    doc.setFontSize(12);
     doc.setFont(undefined, 'bold');
     doc.text('Cliente:', 10, y);
     doc.setFont(undefined, 'normal');
-    doc.text(clienteNome, 40, y);
+    doc.text(clienteNome, 30, y);
 
     y += 10;
     doc.setFont(undefined, 'bold');
     doc.text('Produto:', 10, y);
     doc.setFont(undefined, 'normal');
-    doc.text(produtoNome.toUpperCase(), 40, y);
+    doc.text(produtoNome.toUpperCase(), 30, y);
 
     y += 10;
     doc.setFont(undefined, 'bold');
     doc.text('Largura:', 10, y);
     doc.setFont(undefined, 'normal');
-    doc.text(`${largura} m`, 40, y);
+    doc.text(`${largura} m`, 30, y);
 
     y += 8;
     doc.setFont(undefined, 'bold');
     doc.text('Altura:', 10, y);
     doc.setFont(undefined, 'normal');
-    doc.text(`${altura} m`, 40, y);
+    doc.text(`${altura} m`, 30, y);
 
     y += 15;
 
@@ -349,7 +370,13 @@ async function gerarPDF() {
       }      
     });
 
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'normal');
+    doc.text('Vidraçaria Araras', 10, 280);
+    doc.text('Email: vidrararas@hotmail.com | Telefone: (19) 3547-8430', 10, 286);
+    doc.text('Endereço: Rua Arthur Nogueira, 265, Vila Europa, Araras-SP CEP: 13.604-020', 10, 292);
+
+
     doc.save('orcamento_vidracaria.pdf');
   };
 }
-

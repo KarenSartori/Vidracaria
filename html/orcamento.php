@@ -32,6 +32,10 @@
         <button class="btn-pdf" type="button" onclick="gerarPDF()">
           <i class="fa-solid fa-file-pdf"></i> Gerar PDF
         </button>
+        <button class="btn-limpar" type="button" onclick="limparOrcamento()">
+          <i class="fa-solid fa-rotate-left"></i> Limpar Orçamento
+        </button>
+
 
         <div class="orcamento-container">
           <!-- Coluna da esquerda: Inputs -->
