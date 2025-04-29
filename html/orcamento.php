@@ -53,9 +53,6 @@
             <label for="alturaVidro">Altura do vidro (m):</label>
             <input type="number" id="alturaVidro" step="0.01">
 
-            <label for="precoVidro">Preço por m² do vidro:</label>
-            <input type="number" id="precoVidro" step="0.01" placeholder="Informe o preço manualmente">
-
             <button onclick="calcularTotal()">Calcular Orçamento</button>
 
             <p id="resultadoFinal"></p>
@@ -71,6 +68,7 @@
               <th>Peso (Kg/m)</th>
               <th>Valor (R$)</th>
               <th>Cálculo</th>
+              <th>Tipo</th>
             </tr>
           </thead>
               <tbody></tbody>

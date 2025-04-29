@@ -54,6 +54,7 @@ async function carregarMateriaisDoProduto() {
       <td>${mat.peso_kg_m}</td>
       <td>${mat.peso_kg_aluminio}</td>
       <td>${mat.tipo_calculo}</td>
+      <td>${mat.tipo}</td>
     `;
     tbody.appendChild(tr);
   });
@@ -64,31 +65,34 @@ async function carregarMateriaisDoProduto() {
 function calcularTotal() {
   const largura = parseFloat(document.getElementById("larguraVidro").value);
   const altura = parseFloat(document.getElementById("alturaVidro").value);
-  const precoVidro = parseFloat(document.getElementById("precoVidro").value);
 
-  if (isNaN(largura) || isNaN(altura) || isNaN(precoVidro)) {
+  if (isNaN(largura) || isNaN(altura)) {
     alert("Preencha todos os campos corretamente!");
     return;
   }
 
-  let totalAluminio = 0;
-  const tbodyResultados = document.getElementById('tabelaResultados').querySelector('tbody');
-  tbodyResultados.innerHTML = ""; // Limpa a tabela de resultados
+  const aluminio = materiais.filter(m => m.tipo === 'aluminio');
+  const vidros = materiais.filter(m => m.tipo === 'vidro');
+  const fechaduras = materiais.filter(m => m.tipo === 'fechadura');
 
-  materiais.forEach(mat => {
+  let totalAluminio = 0;
+  let totalVidro = 0;
+
+  const tbodyResultados = document.getElementById('tabelaResultados').querySelector('tbody');
+  tbodyResultados.innerHTML = "";
+
+  aluminio.forEach(mat => {
     let metro = 0;
     if (mat.tipo_calculo === "largura*2") metro = largura * 2;
     else if (mat.tipo_calculo === "altura*2") metro = altura * 2;
     else if (mat.tipo_calculo === "largura") metro = largura;
     else if (mat.tipo_calculo === "altura") metro = altura;
-    else metro = 0;
 
     const peso = parseFloat(mat.peso_kg_m);
     const precoKg = parseFloat(mat.peso_kg_aluminio);
     const subtotal = metro * peso * precoKg;
     totalAluminio += subtotal;
 
-    // Linha do material no resumo final
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${mat.nome}</td>
@@ -98,16 +102,36 @@ function calcularTotal() {
     tbodyResultados.appendChild(tr);
   });
 
-  const totalVidro = largura * altura * precoVidro;
-  const totalComFechadura240 = totalVidro + totalAluminio + 240;
-  const totalComFechadura100 = totalVidro + totalAluminio + 100;
+  vidros.forEach(mat => {
+    const precoM2 = parseFloat(mat.peso_kg_aluminio);
+    const area = largura * altura;
+    const subtotal = area * precoM2;
+    totalVidro += subtotal;
 
-  // Linhas de totais no resumo
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${mat.nome}</td>
+      <td>${area.toFixed(2)} m² × R$${precoM2.toFixed(2)}</td>
+      <td><strong>R$ ${subtotal.toFixed(2)}</strong></td>
+    `;
+    tbodyResultados.appendChild(tr);
+  });
+
+  const totaisFechaduras = fechaduras.map(mat => {
+    const valor = parseFloat(mat.peso_kg_aluminio);
+    return {
+      nome: mat.nome,
+      total: totalAluminio + totalVidro + valor
+    };
+  });
+
   const linhasTotais = [
     { label: 'Total Alumínio', valor: totalAluminio },
     { label: 'Total Vidro', valor: totalVidro },
-    { label: 'Total com Fechadura contra parede (R$240)', valor: totalComFechadura240 },
-    { label: 'Total com Bate Fecha (R$100)', valor: totalComFechadura100 },
+    ...totaisFechaduras.map(f => ({
+      label: `Total com ${f.nome}`,
+      valor: f.total
+    }))
   ];
 
   linhasTotais.forEach(item => {
@@ -119,10 +143,7 @@ function calcularTotal() {
     tbodyResultados.appendChild(tr);
   });
 
-  // Mostra o resumo final
   document.getElementById('areaResultados').classList.remove('hidden');
-
-  // Esconde o texto separado de resultado
   document.getElementById("resultadoFinal").innerHTML = "";
 }
 

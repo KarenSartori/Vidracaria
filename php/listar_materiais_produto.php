@@ -10,7 +10,13 @@ $id = intval($_GET['id']);
 $materiais = [];
 
 $stmt = $conn->prepare("
-  SELECT m.nome, m.peso_kg_m, m.peso_kg_aluminio, pm.quantidade, pm.tipo_calculo
+  SELECT 
+    m.nome, 
+    m.peso_kg_m, 
+    m.peso_kg_aluminio, 
+    m.tipo, 
+    pm.quantidade, 
+    pm.tipo_calculo
   FROM produto_materiais pm
   JOIN materiais m ON m.id = pm.material_id
   WHERE pm.produto_id = ?
