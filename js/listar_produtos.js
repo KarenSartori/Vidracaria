@@ -32,8 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <tr>
             <th>Material</th>
             <th>Peso (kg/m)</th>
-            <th>Preço Alumínio (R$/kg)</th>
-            <th>Qtd usada</th>
+            <th>Valor (R$)</th>
           </tr>
         </thead>
         <tbody>
@@ -42,7 +41,6 @@ document.addEventListener("DOMContentLoaded", async () => {
               <td>${mat.nome}</td>
               <td>${mat.peso_kg_m}</td>
               <td>${mat.peso_kg_aluminio}</td>
-              <td>${mat.quantidade}</td>
             </tr>
           `).join('')}
         </tbody>

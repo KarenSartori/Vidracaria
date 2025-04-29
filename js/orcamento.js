@@ -60,20 +60,59 @@ async function carregarMateriaisDoProduto() {
   });
 
   document.getElementById('areaMateriais').classList.remove('hidden');
+  const produtoSelect = document.getElementById('produto');
+  const produtoNome = produtoSelect.options[produtoSelect.selectedIndex]?.text.toLowerCase() || '';
+
+  const campoSimples = document.getElementById('campoLarguraSimples');
+  const campoDuplo = document.getElementById('campoLarguraDupla');
+  const campoAltura = document.getElementById('campoAltura');
+  const alturaInput = document.getElementById('alturaVidro');
+
+  if (produtoNome.includes("box")) {
+    campoSimples.style.display = "none";
+    campoDuplo.style.display = "block";
+    campoAltura.style.display = "none";
+    alturaInput.value = 1.9; 
+  } else {
+    campoSimples.style.display = "block";
+    campoDuplo.style.display = "none";
+    campoAltura.style.display = "block";
+    alturaInput.value = ""; 
+  }
+
 }
 
 function calcularTotal() {
-  const largura = parseFloat(document.getElementById("larguraVidro").value);
-  const altura = parseFloat(document.getElementById("alturaVidro").value);
+  const produtoSelect = document.getElementById('produto');
+  const produtoNome = produtoSelect.options[produtoSelect.selectedIndex]?.text.toLowerCase() || '';
 
-  if (isNaN(largura) || isNaN(altura)) {
-    alert("Preencha todos os campos corretamente!");
-    return;
+  let largura, altura;
+
+  if (produtoNome.includes("box")) {
+    const largura1 = parseFloat(document.getElementById("larguraBox1").value);
+    const largura2 = parseFloat(document.getElementById("larguraBox2").value);
+
+    if (isNaN(largura1) || isNaN(largura2)) {
+      alert("Preencha as duas larguras corretamente!");
+      return;
+    }
+
+    largura = largura1 + largura2;
+    altura = 1.9;
+  } else {
+    largura = parseFloat(document.getElementById("larguraVidro").value);
+    altura = parseFloat(document.getElementById("alturaVidro").value);
+
+    if (isNaN(largura) || isNaN(altura)) {
+      alert("Preencha a largura e altura corretamente!");
+      return;
+    }
   }
 
   const aluminio = materiais.filter(m => m.tipo === 'aluminio');
   const vidros = materiais.filter(m => m.tipo === 'vidro');
   const fechaduras = materiais.filter(m => m.tipo === 'fechadura');
+  const kits = materiais.filter(m => m.tipo === 'kit');
 
   let totalAluminio = 0;
   let totalVidro = 0;
@@ -81,6 +120,7 @@ function calcularTotal() {
   const tbodyResultados = document.getElementById('tabelaResultados').querySelector('tbody');
   tbodyResultados.innerHTML = "";
 
+  if (!produtoNome.includes("box")) {
   aluminio.forEach(mat => {
     let metro = 0;
     if (mat.tipo_calculo === "largura*2") metro = largura * 2;
@@ -101,6 +141,7 @@ function calcularTotal() {
     `;
     tbodyResultados.appendChild(tr);
   });
+  }
 
   vidros.forEach(mat => {
     const precoM2 = parseFloat(mat.peso_kg_aluminio);
@@ -117,6 +158,7 @@ function calcularTotal() {
     tbodyResultados.appendChild(tr);
   });
 
+
   const totaisFechaduras = fechaduras.map(mat => {
     const valor = parseFloat(mat.peso_kg_aluminio);
     return {
@@ -125,14 +167,59 @@ function calcularTotal() {
     };
   });
 
-  const linhasTotais = [
-    { label: 'Total Alumínio', valor: totalAluminio },
-    { label: 'Total Vidro', valor: totalVidro },
+  const vidrosBox = vidros.map(mat => {
+    const precoM2 = parseFloat(mat.peso_kg_aluminio);
+    const areaBox = largura * 2 * 1.9;
+    const subtotal = areaBox * precoM2;
+    return {
+      nome: mat.nome,
+      subtotal
+    };
+  });
+
+  const totaisKits = [];
+  kits.forEach(kit => {
+    const precoKit = parseFloat(kit.peso_kg_aluminio);
+  
+    const trKit = document.createElement('tr');
+    trKit.innerHTML = `
+      <td>${kit.nome}</td>
+      <td>Valor fixo</td>
+      <td><strong>R$ ${precoKit.toFixed(2)}</strong></td>
+    `;
+    tbodyResultados.appendChild(trKit);
+  
+    if (produtoNome.includes("box")) {
+      vidrosBox.forEach(vidroBox => {
+        totaisKits.push({
+          label: `Total com ${kit.nome} (Box c/ ${vidroBox.nome})`,
+          valor: totalAluminio + vidroBox.subtotal + precoKit
+        });
+      });
+    } else {
+      totaisKits.push({
+        label: `Total com ${kit.nome}`,
+        valor: totalAluminio + totalVidro + precoKit
+      });
+    }
+  });
+  
+  const linhasTotais = [];
+
+  if (!produtoNome.includes("box") && totalAluminio > 0) {
+    linhasTotais.push({ label: 'Total Alumínio', valor: totalAluminio });
+  }  
+
+  linhasTotais.push({ label: 'Total Vidro', valor: totalVidro });
+
+  linhasTotais.push(
     ...totaisFechaduras.map(f => ({
       label: `Total com ${f.nome}`,
       valor: f.total
     }))
-  ];
+  );
+
+  linhasTotais.push(...totaisKits);
 
   linhasTotais.forEach(item => {
     const tr = document.createElement('tr');
@@ -158,11 +245,19 @@ async function gerarPDF() {
   const clienteSelect = document.getElementById('cliente');
   const clienteNome = clienteSelect.options[clienteSelect.selectedIndex]?.text || '---';
 
-  const produtoSelect = document.getElementById('produto');
-  const produtoNome = produtoSelect.options[produtoSelect.selectedIndex]?.text || '---';
+  const produtoSelect = document.getElementById('produto'); // <- corrigido aqui
+  const produtoNome = produtoSelect.options[produtoSelect.selectedIndex]?.text.toLowerCase() || '';
 
-  const largura = document.getElementById('larguraVidro').value || '---';
-  const altura = document.getElementById('alturaVidro').value || '---';
+  let largura, altura;
+  if (produtoNome.includes("box")) {
+    const largura1 = document.getElementById("larguraBox1").value || '---';
+    const largura2 = document.getElementById("larguraBox2").value || '---';
+    largura = `${largura1} + ${largura2}`;
+    altura = "1.9";
+  } else {
+    largura = document.getElementById("larguraVidro").value || '---';
+    altura = document.getElementById("alturaVidro").value || '---';
+  }
 
   const dataHora = new Date().toLocaleString('pt-BR');
 
@@ -192,7 +287,7 @@ async function gerarPDF() {
     doc.setFont(undefined, 'bold');
     doc.text('Produto:', 10, y);
     doc.setFont(undefined, 'normal');
-    doc.text(produtoNome, 40, y);
+    doc.text(produtoNome.toUpperCase(), 40, y);
 
     y += 10;
     doc.setFont(undefined, 'bold');
@@ -208,17 +303,16 @@ async function gerarPDF() {
 
     y += 15;
 
-    // --- Montando a tabela a partir de #tabelaResultados ---
-
     const headers = [['Nome', 'Cálculo', 'Valor (R$)']];
     const body = [];
 
     const linhasTabela = document.querySelectorAll('#tabelaResultados tbody tr');
-
-    linhasTabela.forEach((linha, index) => {
+    linhasTabela.forEach(linha => {
       const cols = linha.querySelectorAll('td');
       const row = [];
-      cols.forEach(col => row.push(col.innerText.trim()));
+      cols.forEach(col => {
+        row.push(col.innerText.trim());
+      });
       body.push(row);
     });
 
@@ -230,23 +324,32 @@ async function gerarPDF() {
       headStyles: { fillColor: [26, 52, 57], textColor: 255 },
       bodyStyles: { fontSize: 10 },
       didParseCell: function (data) {
-        const rowIndex = data.row.index;
-        const totalRows = linhasTabela.length;
+        const rowText = data.row.raw?.[0]?.toLowerCase() || "";
+        const isKitLine = rowText.includes("total com kit");
+        const isBox = produtoNome.includes("box");
+      
+        if (isKitLine && isBox) {
+          data.cell.styles.fillColor = [220, 235, 255]; 
+          data.cell.styles.fontStyle = 'bold';
+          return; 
+        }
 
+        const rowIndex = data.row.index;
+        const totalRows = body.length;
+      
         if (rowIndex === totalRows - 1) {
           data.cell.styles.fillColor = [255, 243, 205]; 
           data.cell.styles.fontStyle = 'bold';
-        }
-        if (rowIndex === totalRows - 2) { 
+        } else if (rowIndex === totalRows - 2) {
           data.cell.styles.fillColor = [230, 242, 255]; 
           data.cell.styles.fontStyle = 'bold';
-        }
-        if (rowIndex >= totalRows - 4) { 
+        } else if (rowIndex >= totalRows - 4) {
           data.cell.styles.fontStyle = 'bold';
         }
-      }
+      }      
     });
 
     doc.save('orcamento_vidracaria.pdf');
   };
 }
+

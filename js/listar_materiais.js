@@ -3,17 +3,9 @@ window.onload = () => {
     .then(res => res.text())
     .then(html => document.getElementById('tabela-materiais').innerHTML = html);
 
-  fetch('../php/materiais/listar_vidro.php')
-    .then(res => res.text())
-    .then(html => document.getElementById('tabela-vidros').innerHTML = html);
-
-  fetch('../php/materiais/listar_fechadura.php')
-    .then(res => res.text())
-    .then(html => document.getElementById('tabela-fechaduras').innerHTML = html);
 };
 
-
-  function abrirModal(id) {
+function abrirModal(id) {
     fetch('../php/buscar_material.php?id=' + id)
       .then(res => res.json())
       .then(material => {
@@ -78,26 +70,6 @@ window.onload = () => {
       }).then(() => {
         window.location.reload();
       });
-    }
-  }
-
-  function salvarPrecoVidro(id, valor) {
-    fetch('../php/materiais/atualizar_preco_vidro.php?id=' + id + '&preco=' + valor);
-  }
-  
-  function removerVidro(id) {
-    if (confirm("Remover vidro?")) {
-      fetch('../php/materiais/excluir_vidro.php?id=' + id).then(() => window.location.reload());
-    }
-  }
-  
-  function salvarPrecoFechadura(id, valor) {
-    fetch('../php/materiais/atualizar_fechadura.php?id=' + id + '&preco=' + valor);
-  }
-  
-  function removerFechadura(id) {
-    if (confirm("Remover fechadura?")) {
-      fetch('../php/materiais/excluir_fechadura.php?id=' + id).then(() => window.location.reload());
     }
   }
   

@@ -54,14 +54,9 @@
       <h2>Lista de Materiais</h2>
       <button class="btn-salvar" style="margin-bottom: 15px;" onclick="abrirNovo()">+ Cadastrar Novo Material</button>
       
-      <h2>Preço Alumínio</h2>
+      <h2></h2>
       <div id="tabela-materiais"></div>
 
-      <h2>Preços de Vidros</h2>
-      <div id="tabela-vidros"></div>
-
-      <h2>Preços de Fechaduras</h2>
-      <div id="tabela-fechaduras"></div>
 
     </main>
   </div>

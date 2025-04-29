@@ -47,11 +47,27 @@
               <option value="">Selecione um produto</option>
             </select>
 
-            <label for="larguraVidro">Largura do vidro (m):</label>
-            <input type="number" id="larguraVidro" step="0.01">
+            <!-- Largura simples (para produtos normais) -->
+            <div id="campoLarguraSimples">
+              <label for="larguraVidro">Largura do vidro (m):</label>
+              <input type="number" id="larguraVidro" step="0.01">
+            </div>
 
-            <label for="alturaVidro">Altura do vidro (m):</label>
-            <input type="number" id="alturaVidro" step="0.01">
+            <!-- Largura dupla (para BOX) -->
+            <div id="campoLarguraDupla" style="display: none;">
+              <label for="larguraBox1">Largura 1 (m):</label>
+              <input type="number" id="larguraBox1" step="0.01">
+
+              <label for="larguraBox2">Largura 2 (m):</label>
+              <input type="number" id="larguraBox2" step="0.01">
+            </div>
+
+            <!-- Altura (oculto ao selecionar BOX) -->
+            <div id="campoAltura">
+              <label for="alturaVidro">Altura do vidro (m):</label>
+              <input type="number" id="alturaVidro" step="0.01">
+            </div>
+
 
             <button onclick="calcularTotal()">Calcular Orçamento</button>
 
