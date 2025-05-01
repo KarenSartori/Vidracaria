@@ -381,6 +381,24 @@ async function gerarPDF() {
     doc.text('Endereço: Rua Arthur Nogueira, 265, Vila Europa, Araras-SP CEP: 13.604-020', 10, 292);
 
     doc.save('orcamento_vidracaria.pdf');
+
+    const pdfBlob = doc.output('blob');
+
+    const formData = new FormData();
+    formData.append('pdf', pdfBlob, `orcamento_${clienteNome}_${Date.now()}.pdf`);
+    formData.append('cliente_id', clienteSelect.value);
+    formData.append('data_hora', dataHora);
+
+    fetch('../php/salvar_orcamento.php', {
+      method: 'POST',
+      body: formData
+    }).then(resp => {
+      if (resp.ok) {
+        alert('PDF salvo com sucesso!');
+      } else {
+        alert('Erro ao salvar o PDF.');
+      }
+    });
   };
 }
 
@@ -517,22 +535,18 @@ function limparInputsOrcamento() {
   const campoLarguraDupla = document.getElementById('campoLarguraDupla');
   const campoAltura = document.getElementById('campoAltura');
 
-  // Limpa campos de input
   if (larguraVidro) larguraVidro.value = '';
   if (larguraBox1) larguraBox1.value = '';
   if (larguraBox2) larguraBox2.value = '';
   if (alturaVidro) alturaVidro.value = '';
 
-  // Mantém o produto selecionado antes de resetar (opcional)
   if (produtoSelect) produtoSelect.selectedIndex = 0;
 
-  // Reseta exibições e tabelas
   if (areaMateriais) areaMateriais.classList.add('hidden');
   if (tabelaMateriais) tabelaMateriais.innerHTML = '';
   if (tabelaResultados) tabelaResultados.innerHTML = '';
   if (resultadoFinal) resultadoFinal.innerHTML = '';
 
-  // ⚠️ Define sempre os campos como padrão
   if (campoLarguraSimples) campoLarguraSimples.style.display = 'block';
   if (campoLarguraDupla) campoLarguraDupla.style.display = 'none';
   if (campoAltura) campoAltura.style.display = 'block';

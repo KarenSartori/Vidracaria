@@ -32,7 +32,7 @@
         </div> -->
         <div class="card" onclick="location.href='listar_produtos.php'">
           <i class="fa-solid fa-screwdriver-wrench"></i>
-          <h3>Editar Produtos</h3>
+          <h3>Listagem de Produtos</h3>
         </div>
         <div class="card" onclick="location.href='listar_materiais.php'">
           <i class="fa-solid fa-screwdriver-wrench"></i>
@@ -41,6 +41,10 @@
         <div class="card" onclick="location.href='orcamento.php'">
           <i class="fa-solid fa-file-invoice-dollar"></i>
           <h3>Gerar Orçamento</h3>
+        </div>
+        <div class="card" onclick="location.href='listar_orcamentos.php'">
+          <i class="fa-solid fa-file-invoice-dollar"></i>
+          <h3>Histórico de Orçamentos</h3>
         </div>
       </section>
     </main>

@@ -13,7 +13,13 @@
   <div class="dashboard">
     <?php include 'menu_lateral.php'; ?>
     <main class="main-content">
-      <div class="top-actions">
+    <div class="top-actions">
+      <div class="left-actions">
+        <button class="btn-voltar-inicio" onclick="window.location.href='menu.php'">
+          <i class="fa-solid fa-arrow-left"></i> Início
+        </button>
+      </div>
+      <div class="right-actions">
         <button class="btn-limpar" onclick="limparOrcamento()">
           <i class="fa-solid fa-rotate-left"></i> Limpar Orçamento
         </button>
@@ -21,7 +27,8 @@
           <i class="fa-solid fa-file-pdf"></i> Gerar PDF
         </button>
       </div>
-
+    </div>
+    
       <div class="form-section">
         <h2>Montar Orçamento</h2>
         <div class="orcamento-container">

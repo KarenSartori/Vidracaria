@@ -1,0 +1,153 @@
+.section-header {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+  
+.section-header h2 {
+    font-size: 28px;
+    color: #1A3439;
+    margin-bottom: 10px;
+    position: relative;
+}
+  
+.section-header h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #1A3439;
+    margin: 8px auto 0;
+    border-radius: 2px;
+}
+  
+.filtros {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+  
+.filtros input,
+.filtros select {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    min-width: 220px;
+    background-color: #fff;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+}
+  
+.filtros input:focus,
+.filtros select:focus {
+    border-color: #1A3439;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(26, 52, 57, 0.2);
+}
+  
+.orcamento-tabela {
+    margin: 10px 20px 40px;
+    width: calc(100% - 40px);
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+  
+.orcamento-tabela th,
+.orcamento-tabela td {
+    padding: 12px 14px;
+    text-align: left;
+}
+  
+.orcamento-tabela th {
+    background-color: #1A3439;
+    color: white;
+    font-weight: 600;
+}
+  
+.orcamento-tabela tr:nth-child(even) {
+    background-color: #f0f0f0;
+}
+  
+.orcamento-tabela td a {
+    color: #1A3439;
+    font-weight: bold;
+    text-decoration: none;
+}
+  
+.orcamento-tabela td a:hover {
+    text-decoration: underline;
+}
+
+.btn-ver-pdf {
+    background-color: #1A3439;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s ease;
+}
+  
+.btn-ver-pdf:hover {
+    background-color: #2d555d;
+}
+
+.btn-excluir {
+    background-color: #c0392b;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    margin-left: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s ease;
+}
+  
+.btn-excluir:hover {
+    background-color: #e74c3c;
+}  
+  
+@media (max-width: 768px) {
+    .filtros {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .orcamento-tabela {
+      font-size: 13px;
+    }
+}
+  
+.btn-exportar {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease;
+}
+  
+.btn-exportar:hover {
+    background-color: #2ecc71;
+}
+  

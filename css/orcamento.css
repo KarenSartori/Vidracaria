@@ -18,7 +18,26 @@ body {
 .top-actions {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
+}
+
+.left-actions {
+  flex-shrink: 0;
+}
+
+.right-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-voltar-inicio {
+  background-color: #1A3439;
+  color: #fff;
+}
+
+.btn-voltar-inicio:hover {
+  background-color: #265d68;
 }
 
 .form-section {
