@@ -1,201 +1,124 @@
 body {
-    background: #f9f9f9;
-    margin: 0;
-    padding: 0;
+  background: #f9f9f9;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .dashboard {
-    display: flex;
-    flex: 1;
+  display: flex;
 }
 
 .main-content {
-    flex: 1;
-    padding: 30px;
-    background: #f9f9f9;
+  flex: 1;
+  padding: 30px;
+  max-width: 1200px;
+  margin: auto;
 }
 
-.main-header {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.user-info {
-    font-size: 16px;
-    color: #1A3439;
-    display: flex;
-    align-items: center;
-}
-
-.user-info i {
-    margin-right: 8px;
-    font-size: 24px;
-}
-
-h2 {
-    color: #1A3439;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    font-size: 28px;
+.top-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .form-section {
-    background: #ffffff;
-    padding: 25px;
-    border-radius: 12px;
-    max-width: 1100px;
-    margin: 0 auto;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-  
-  .orcamento-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 30px;
-  }
-  
-  .orcamento-form, .orcamento-materiais {
-    flex: 1;
-  }
-  
-  .orcamento-form label {
-    display: block;
-    margin-top: 12px;
-    font-weight: 600;
-    color: #333;
-  }
-  
-  .orcamento-form input,
-  .orcamento-form select {
-    padding: 12px;
-    margin-top: 5px;
-    width: 100%;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 15px;
-    box-sizing: border-box;
-  }
-  
-  .orcamento-form button {
-    background-color: #1A3439;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    margin-top: 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 100%;
-  }
-  
-  .orcamento-form button:hover {
-    background-color: #265d68;
-  }
-  
-  .orcamento-materiais table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  }
-  
-  .orcamento-materiais th, 
-  .orcamento-materiais td {
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    text-align: center;
-    font-size: 14px;
-  }
-  
-  .orcamento-materiais th {
-    background-color: #1A3439;
-    color: white;
-    font-weight: bold;
-  }
-  
-  #resultadoFinal {
-    margin-top: 20px;
-    font-size: 18px;
-    font-weight: bold;
-    color: #228B22;
-    text-align: center;
-  }
-  
-  .hidden {
-    display: none;
-  }
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
 
-  .btn-pdf {
-    background-color: #e63946;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .btn-pdf:hover {
-    background-color: #ba2d3b;
-    transform: scale(1.03);
-  }
+h2 {
+  color: #1A3439;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
 
-  .btn-limpar {
-    background-color: rgba(12, 12, 175, 0.892);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .btn-limpar:hover {
-    background-color: rgb(8, 8, 133);
-    transform: scale(1.03);
-  }
-  
-  .btn-pdf i {
-    font-size: 16px;
-  }
-    
-  #tabelaMateriais tbody tr td {
-    padding: 8px;
-  }
-  
-  .orcamento-resultados {
-    margin-top: 30px;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-  }
-  
-  .orcamento-resultados table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-  }
-  
-  .orcamento-resultados th, .orcamento-resultados td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-  }
-  
+label {
+  font-weight: 600;
+  margin-top: 10px;
+  display: block;
+}
+
+select, input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.btn-pdf {
+  background-color: #e63946;
+  color: #fff;
+}
+
+.btn-limpar {
+  background-color: #1d3557;
+  color: #fff;
+}
+
+.orcamento-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.orcamento-form button {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.orcamento-materiais table,
+.orcamento-resultados table,
+.orcamento-resumo-final table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+}
+
+th {
+  background-color: #1A3439;
+  color: #fff;
+}
+
+.orcamento-tabela-produto {
+  margin-top: 20px;
+}
+
+.orcamento-tabela-produto h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #1A3439;
+}
+
+.orcamento-resumo-final {
+  margin-top: 40px;
+}
+
+.orcamento-resumo-final td button {
+  background: none;
+  color: #e63946;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
