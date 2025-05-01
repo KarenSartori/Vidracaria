@@ -22,6 +22,10 @@
         </button>
       </div>
       <h2>Clientes Cadastrados</h2>
+      <p id="total-clientes" style="text-align: center; font-size: 15px; color: #555; margin-top: -15px; margin-bottom: 20px;"></p>
+      <div class="filtros-clientes">
+        <input type="text" id="filtro" placeholder="Buscar por nome, telefone ou email." />
+      </div>
       <table class="styled-table">
         <thead>
           <tr>
@@ -39,6 +43,7 @@
           <!-- Clientes serão inseridos aqui via JS -->
         </tbody>
       </table>
+      <div id="paginacao" class="paginacao"></div>
     </main>
   </div>
 
@@ -47,27 +52,6 @@
     <p>© 2025 Vidraçaria | Todos os direitos reservados</p>
   </footer> -->
 
-  <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      const response = await fetch("../php/listar_clientes.php");
-      const clientes = await response.json();
-      const tbody = document.getElementById("lista-clientes");
-
-      clientes.forEach(c => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${c.nome}</td>
-          <td>${c.telefone}</td>
-          <td>${c.email}</td>
-          <td>${c.cep}</td>
-          <td>${c.endereco}</td>
-          <td>${c.numero}</td>
-          <td>${c.cidade}</td>
-          <td>${c.estado}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    });
-  </script>
+  <script src="../js/listar_clientes.js"></script>
 </body>
 </html>
