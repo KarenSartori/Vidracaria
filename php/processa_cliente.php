@@ -15,12 +15,27 @@ $estado = $_POST['estado'];
 $numero = $_POST['numero'];
 $complemento = $_POST['complemento'];
 
-
-
 // Validação básica
 if (empty($nome) || empty($telefone) || empty($endereco)) {
     echo "Campos obrigatórios não preenchidos.";
     exit;
+}
+
+// Verifica duplicidade de CPF (se tipo for pessoa física)
+if ($tipo === 'pf' && $cpf) {
+    $verificaSql = "SELECT id FROM clientes WHERE cpf = ?";
+    $verificaStmt = $conn->prepare($verificaSql);
+    $verificaStmt->bind_param("s", $cpf);
+    $verificaStmt->execute();
+    $verificaStmt->store_result();
+
+    if ($verificaStmt->num_rows > 0) {
+        echo "<script>alert('CPF já cadastrado no sistema.'); window.location.href='../html/cadastro_cliente.php';</script>";
+        $verificaStmt->close();
+        $conn->close();
+        exit;
+    }
+    $verificaStmt->close();
 }
 
 // Monta a query conforme o tipo
@@ -30,7 +45,7 @@ if ($tipo === 'pf') {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssssssssss", $nome, $cpf, $telefone, $email, $endereco, $cep, $numero, $complemento, $cidade, $estado);
 } else {
-    $sql = "INSERT INTO clientes (tipo, nome, cnpj, telefone, email, endereco, cep, cidade, estado) 
+    $sql = "INSERT INTO clientes (tipo, nome, cnpj, telefone, email, endereco, cep, numero, complemento, cidade, estado) 
             VALUES ('pj', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssssssssss", $nome, $cnpj, $telefone, $email, $endereco, $cep, $numero, $complemento, $cidade, $estado);
@@ -38,7 +53,7 @@ if ($tipo === 'pf') {
 
 // Executa e verifica
 if ($stmt->execute()) {
-    echo "<script>alert('Cliente cadastrado com sucesso! - TESTEEEEEEE'); window.location.href='../html/cadastro_cliente.php';</script>";
+    echo "<script>alert('Cliente cadastrado com sucesso!'); window.location.href='../html/cadastro_cliente.php';</script>";
 } else {
     echo "Erro ao cadastrar: " . $stmt->error;
 }
