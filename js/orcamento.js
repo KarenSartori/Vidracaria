@@ -4,6 +4,7 @@ function limparOrcamento() {
   orcamentoProdutos = [];
 
   const cliente = document.getElementById('cliente');
+  const clienteId = document.getElementById('clienteId');
   const produto = document.getElementById('produto');
   const larguraVidro = document.getElementById('larguraVidro');
   const larguraBox1 = document.getElementById('larguraBox1');
@@ -21,7 +22,13 @@ function limparOrcamento() {
   const tabelaResumo = document.querySelector('#tabelaResumoProdutos tbody');
   const areaResultadosContainer = document.getElementById('areaResultadosContainer');
 
-  if (cliente) cliente.selectedIndex = 0;
+  if (cliente) {
+    cliente.value = '';
+    cliente.dataset.email = '';
+    cliente.dataset.telefone = '';
+  }
+
+  if (clienteId) clienteId.value = '';
   if (produto) produto.selectedIndex = 0;
   if (larguraVidro) larguraVidro.value = '';
   if (larguraBox1) larguraBox1.value = '';

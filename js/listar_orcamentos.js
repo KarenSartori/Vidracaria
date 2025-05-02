@@ -78,19 +78,30 @@ function formatarData(dataStr) {
 async function deletarOrcamento(id, caminhoArquivo) {
   if (!confirm("Tem certeza que deseja excluir este orçamento?")) return;
 
-  const form = new FormData();
-  form.append('id', id);
-  form.append('caminho', caminhoArquivo);
+  try {
+    const form = new FormData();
+    form.append('id', id);
+    form.append('caminho', caminhoArquivo);
 
-  const resp = await fetch('../php/excluir_orcamento.php', {
-    method: 'POST',
-    body: form
-  });
+    const resp = await fetch('../php/excluir_orcamento.php', {
+      method: 'POST',
+      body: form
+    });
 
-  const result = await resp.text();
+    const result = await resp.text();
 
-  alert(result);
-  carregarOrcamentos();
+    if (!resp.ok) {
+      console.error('Erro na exclusão:', result);
+      alert('Erro ao excluir o orçamento.');
+    } else {
+      alert(result);
+      carregarOrcamentos();
+    }
+
+  } catch (err) {
+    console.error('Falha na requisição:', err);
+    alert('Erro inesperado ao tentar excluir o orçamento.');
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
