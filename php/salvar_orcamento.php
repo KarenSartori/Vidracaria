@@ -1,10 +1,5 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $clienteId = $_POST['cliente_id'];
   $dataHora = $_POST['data_hora'];
@@ -25,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
   }
 
-  require 'conexao.php'; // ajuste conforme seu projeto
+  require 'conexao.php';
   $stmt = $conn->prepare("INSERT INTO orcamentos (cliente_id, nome_arquivo, data_hora, caminho_arquivo) VALUES (?, ?, ?, ?)");
   $stmt->bind_param("isss", $clienteId, $nomeArquivo, date('Y-m-d H:i:s', strtotime($dataHora)), $destino);
 

@@ -14,7 +14,6 @@ function abrirModalEdicao(id) {
       document.getElementById('edit-peso_kg_m').value = material.peso_kg_m;
       document.getElementById('edit-peso_kg_aluminio').value = material.peso_kg_aluminio;
 
-      // Remove qualquer submit anterior para evitar duplicidade
       const form = document.getElementById('form-editar');
       form.onsubmit = null;
       form.onsubmit = salvarMaterial;
@@ -51,7 +50,6 @@ function salvarMaterial(e) {
   e.preventDefault();
 
   const dados = new FormData(document.getElementById('form-editar'));
-
   fetch('../php/materiais/salvar_material.php', {
     method: 'POST',
     body: dados

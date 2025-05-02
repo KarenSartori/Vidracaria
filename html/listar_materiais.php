@@ -42,16 +42,12 @@
       <input type="number" step="0.001" name="peso_kg_m" id="edit-peso_kg_m">
   
       <label>Valor (R$):</label>
-      <input type="number" step="0.001" name="peso_kg_aluminio" id="edit-peso_kg_aluminio">
+      <input type="number" step="0.01" name="peso_kg_aluminio" id="edit-peso_kg_aluminio">
   
       <button type="submit" class="btn-salvar" id="btn-submit">Salvar</button>
     </form>
   </div>  
-
-    <!-- <footer class="footer">
-        <p>© 2025 Vidraçaria | Todos os direitos reservados</p>
-    </footer> -->
-
+  
     <script src="../js/listar_materiais.js"></script>
 </body>
 </html>

@@ -1,7 +1,6 @@
 <?php
 include 'conexao.php';
 
-// Obter dados do formulário
 $tipo = $_POST['tipo'] ?? 'pf';
 $nome = $_POST['nome'];
 $cpf = $_POST['cpf'] ?? null;
@@ -15,13 +14,11 @@ $estado = $_POST['estado'];
 $numero = $_POST['numero'];
 $complemento = $_POST['complemento'];
 
-// Validação básica
 if (empty($nome) || empty($telefone) || empty($endereco)) {
     echo "Campos obrigatórios não preenchidos.";
     exit;
 }
 
-// Verifica duplicidade de CPF (se tipo for pessoa física)
 if ($tipo === 'pf' && $cpf) {
     $verificaSql = "SELECT id FROM clientes WHERE cpf = ?";
     $verificaStmt = $conn->prepare($verificaSql);
@@ -38,7 +35,6 @@ if ($tipo === 'pf' && $cpf) {
     $verificaStmt->close();
 }
 
-// Monta a query conforme o tipo
 if ($tipo === 'pf') {
     $sql = "INSERT INTO clientes (tipo, nome, cpf, telefone, email, endereco, cep, numero, complemento, cidade, estado) 
             VALUES ('pf', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -51,7 +47,6 @@ if ($tipo === 'pf') {
     $stmt->bind_param("ssssssssss", $nome, $cnpj, $telefone, $email, $endereco, $cep, $numero, $complemento, $cidade, $estado);
 }
 
-// Executa e verifica
 if ($stmt->execute()) {
     echo "<script>alert('Cliente cadastrado com sucesso!'); window.location.href='../html/cadastro_cliente.php';</script>";
 } else {
