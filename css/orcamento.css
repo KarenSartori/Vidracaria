@@ -126,3 +126,21 @@ th {
   cursor: pointer;
   font-size: 16px;
 }
+
+#cliente {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+#cliente:focus {
+  border-color: #1a3439;
+  box-shadow: 0 0 0 2px rgba(26, 52, 57, 0.2);
+}

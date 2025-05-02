@@ -44,22 +44,82 @@ async function carregarClientes() {
   try {
     const resp = await fetch('../php/cliente_orcamento.php');
     const clientes = await resp.json();
-    console.log('Clientes carregados:', clientes); 
+    console.log('Clientes carregados:', clientes);
 
-    const selectCliente = document.getElementById('cliente'); // ✅ ADICIONE ESTA LINHA AQUI
+    const datalist = document.getElementById('listaClientes');
+    const inputCliente = document.getElementById('cliente');
+    const clienteIdInput = document.getElementById('clienteId');
 
-clientes.forEach(cliente => {
-  const option = document.createElement('option');
-  option.value = cliente.id;
-  option.textContent = cliente.nome;
-  option.dataset.email = cliente.email;
-  option.dataset.telefone = cliente.telefone;
-  selectCliente.appendChild(option);
-});
+    datalist.innerHTML = ''; 
+
+    clientes.forEach(cliente => {
+      const option = document.createElement('option');
+      option.value = cliente.nome;
+      option.dataset.id = cliente.id;
+      option.dataset.email = cliente.email;
+      option.dataset.telefone = cliente.telefone;
+      datalist.appendChild(option);
+    });
+
+    window.clientesMap = clientes;
+
+    inputCliente.addEventListener('input', () => {
+      const nome = inputCliente.value;
+      const cliente = clientes.find(c => c.nome === nome);
+      if (cliente) {
+        clienteIdInput.value = cliente.id;
+        inputCliente.dataset.email = cliente.email;
+        inputCliente.dataset.telefone = cliente.telefone;
+      } else {
+        clienteIdInput.value = '';
+        inputCliente.dataset.email = '';
+        inputCliente.dataset.telefone = '';
+      }
+    });
+
+    inputCliente.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const nomeDigitado = inputCliente.value.toLowerCase();
+        const primeira = clientes.find(c =>
+          c.nome.toLowerCase().includes(nomeDigitado)
+        );
+        if (primeira) {
+          inputCliente.value = primeira.nome;
+          inputCliente.dataset.email = primeira.email;
+          inputCliente.dataset.telefone = primeira.telefone;
+          clienteIdInput.value = primeira.id;
+          e.preventDefault();
+        }
+      }
+    });
+
   } catch (error) {
     console.error('Erro ao carregar clientes:', error);
   }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  carregarProdutos();
+  carregarClientes();
+
+  const inputCliente = document.getElementById('cliente');
+  const clienteIdInput = document.getElementById('clienteId');
+
+  inputCliente.addEventListener('input', () => {
+    const nome = inputCliente.value;
+    const cliente = window.clientesMap.find(c => c.nome === nome);
+    if (cliente) {
+      clienteIdInput.value = cliente.id;
+      inputCliente.dataset.email = cliente.email;
+      inputCliente.dataset.telefone = cliente.telefone;
+    } else {
+      clienteIdInput.value = '';
+      inputCliente.dataset.email = '';
+      inputCliente.dataset.telefone = '';
+    }
+  });
+});
+
 
 
 async function carregarProdutos() {
@@ -232,7 +292,6 @@ function calcularTotal() {
     });
   });
 
-  // Salvar produto completo no array
   orcamentoProdutos.push({
     nomeProduto: produtoNome,
     largura,
@@ -258,10 +317,20 @@ async function gerarPDF() {
   const jsPDF = window.jspdf.jsPDF;
   const doc = new jsPDF();
 
-  const clienteSelect = document.getElementById('cliente');
-  const clienteNome = clienteSelect.options[clienteSelect.selectedIndex]?.text || '---';
+  const inputCliente = document.getElementById('cliente');
+  const clienteNome = inputCliente.value || '---';
+  const clienteTelefone = inputCliente.dataset.telefone || '---';
+  const clienteEmail = inputCliente.dataset.email || '---';
 
-  const dataHora = new Date().toLocaleString('pt-BR');
+  const agora = new Date();
+  const dia = String(agora.getDate()).padStart(2, '0');
+  const mes = String(agora.getMonth() + 1).padStart(2, '0');
+  const ano = agora.getFullYear();
+  const hora = String(agora.getHours()).padStart(2, '0');
+  const minuto = String(agora.getMinutes()).padStart(2, '0');
+  const segundo = String(agora.getSeconds()).padStart(2, '0');
+
+  const dataHora = `${dia}/${mes}/${ano} ${hora}:${minuto}:${segundo}`;
 
   const logo = new Image();
   logo.src = '../imagens/image.png';
@@ -277,12 +346,6 @@ async function gerarPDF() {
     doc.text(dataHora, 150, 26);
 
     let y = 40;
-
-    const clienteOption = clienteSelect.options[clienteSelect.selectedIndex];
-    const clienteNome = clienteOption.text || '---';
-    const clienteTelefone = clienteOption.dataset.telefone || '---';
-    const clienteEmail = clienteOption.dataset.email || '---';
-
     y += 6;
 
     doc.autoTable({
@@ -303,8 +366,6 @@ async function gerarPDF() {
           clienteTelefone
         ],
         [
-          // { content: 'Contato:', styles: { fontStyle: 'bold' } },
-          // clienteNome.split(' ')[0],
           { content: 'E-mail:', styles: { fontStyle: 'bold' } },
           clienteEmail
         ]
@@ -312,23 +373,22 @@ async function gerarPDF() {
       columnStyles: {
         0: { cellWidth: 20 },
         1: { cellWidth: 60 },
-        2: { cellWidth: 20 },
-        // 3: { cellWidth: 60 }
+        2: { cellWidth: 20 }
       },
       didDrawCell: function (data) {
         const rowIndex = data.row.index;
         const cell = data.cell;
         const table = data.table;
-      
+
         if (data.column.index === 3 && (rowIndex === 0 || rowIndex === 1)) {
           const yLine = cell.y + cell.height;
           const xStart = table.settings.margin.left || 10;
           const xEnd = xStart + (table.width || 180);
-      
+
           doc.setDrawColor(160);
           doc.setLineWidth(0.2);
           doc.line(xStart, yLine, xEnd, yLine);
-        }  
+        }
       }
     });
 
@@ -346,11 +406,7 @@ async function gerarPDF() {
 
       const headers = [['Descrição', 'Valor (R$)']];
       const body = item.totais
-        .filter(linha =>
-          linha.label.toLowerCase().includes('total com') 
-          // ||
-          // linha.label.toLowerCase() === 'total vidro'
-        )
+        .filter(linha => linha.label.toLowerCase().includes('total com'))
         .map(linha => [
           linha.label,
           `R$ ${parseFloat(linha.valor).toFixed(2)}`
@@ -386,7 +442,7 @@ async function gerarPDF() {
 
     const formData = new FormData();
     formData.append('pdf', pdfBlob, `orcamento_${clienteNome}_${Date.now()}.pdf`);
-    formData.append('cliente_id', clienteSelect.value);
+    formData.append('cliente_id', document.getElementById('clienteId').value);
     formData.append('data_hora', dataHora);
 
     fetch('../php/salvar_orcamento.php', {
@@ -394,16 +450,17 @@ async function gerarPDF() {
       body: formData
     }).then(resp => {
       if (resp.ok) {
-        alert('PDF salvo com sucesso!');
+        console.log('PDF salvo com sucesso!');
       } else {
-        alert('Erro ao salvar o PDF.');
+        console.error('Erro ao salvar o PDF.');
       }
+    }).catch(err => {
+      console.error('Erro na requisição:', err);
     });
   };
 }
 
 
-// Função auxiliar para gerar sem imagem
 function gerarPDFSemLogo(doc, clienteNome, dataHora) {
   let y = 20;
 
@@ -460,11 +517,9 @@ function gerarPDFSemLogo(doc, clienteNome, dataHora) {
 function removerProduto(index) {
   orcamentoProdutos.splice(index, 1);
 
-  // Remove a tabela visual do produto removido
   const container = document.getElementById('areaResultadosContainer');
   container.removeChild(container.children[index]);
 
-  // Atualiza o resumo
   atualizarTabelaResumo();
 }
 

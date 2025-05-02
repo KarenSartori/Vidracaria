@@ -34,7 +34,9 @@
         <div class="orcamento-container">
           <div class="orcamento-form">
             <label for="cliente">Cliente:</label>
-            <select id="cliente"><option value="">Selecione um cliente</option></select>
+            <input type="text" id="cliente" placeholder="Digite o nome do cliente..." list="listaClientes" />
+            <datalist id="listaClientes"></datalist>
+            <input type="hidden" id="clienteId" />
 
             <label for="produto">Produto:</label>
             <select id="produto" onchange="carregarMateriaisDoProduto()"><option value="">Selecione um produto</option></select>
