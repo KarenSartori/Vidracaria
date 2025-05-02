@@ -6,36 +6,6 @@
   <link rel="stylesheet" href="../css/menu.css">
   <link rel="stylesheet" href="../css/listar_materiais.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    #modal-editar {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 400px;
-      transform: translate(-50%, -50%);
-      background: #fff;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
-      z-index: 1000;
-    }
-    #modal-editar input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 12px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    #overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
-      z-index: 900;
-    }
-  </style>
 </head>
 <body>
   <div class="dashboard">
@@ -51,13 +21,13 @@
           <i class="fa-solid fa-right-from-bracket"></i> Sair
         </button>
       </div>
-      <h2>Lista de Materiais</h2>
-      <button class="btn-salvar" style="margin-bottom: 15px;" onclick="abrirNovo()">+ Cadastrar Novo Material</button>
-      
-      <h2></h2>
+      <div class="header-materiais">
+        <h2>Lista de Materiais</h2>
+        <button class="btn-cadastrar" onclick="abrirNovo()">
+          <i class="fa fa-plus"></i> Novo Material
+        </button>
+      </div>
       <div id="tabela-materiais"></div>
-
-
     </main>
   </div>
 
@@ -75,7 +45,7 @@
       <label>Peso (kg/m):</label>
       <input type="number" step="0.001" name="peso_kg_m" id="edit-peso_kg_m">
   
-      <label>Valor (kg alumínio):</label>
+      <label>Valor (R$):</label>
       <input type="number" step="0.001" name="peso_kg_aluminio" id="edit-peso_kg_aluminio">
   
       <button type="submit" class="btn-salvar" id="btn-submit">Salvar</button>

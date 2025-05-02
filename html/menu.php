@@ -35,7 +35,7 @@
           <h3>Listagem de Produtos</h3>
         </div>
         <div class="card" onclick="location.href='listar_materiais.php'">
-          <i class="fa-solid fa-screwdriver-wrench"></i>
+          <i class="fa-solid fa-hammer"></i>
           <h3>Editar Materiais</h3>
         </div>
         <div class="card" onclick="location.href='orcamento.php'">
@@ -43,7 +43,7 @@
           <h3>Gerar Orçamento</h3>
         </div>
         <div class="card" onclick="location.href='listar_orcamentos.php'">
-          <i class="fa-solid fa-file-invoice-dollar"></i>
+          <i class="fa-solid fa-list"></i>
           <h3>Histórico de Orçamentos</h3>
         </div>
       </section>

@@ -9,9 +9,9 @@
     <a href="listar_clientes.php"><i class="fa-solid fa-users"></i></i> Listagem de Clientes</a>
     <!-- <a href="cadastro_funcionario.php"><i class="fa-solid fa-users"></i> Funcionários</a> -->
     <a href="listar_produtos.php"><i class="fa-solid fa-screwdriver-wrench"></i> Listagem de Produtos</a>
-    <a href="listar_materiais.php"><i class="fa-solid fa-screwdriver-wrench"></i> Materiais</a>
+    <a href="listar_materiais.php"><i class="fa-solid fa-hammer"></i> Editar Materiais</a>
     <a href="orcamento.php"><i class="fa-solid fa-file-invoice-dollar"></i> Gerar Orçamento</a>
-    <a href="listar_orcamentos.php"><i class="fa-solid fa-file-invoice-dollar"></i> Listagem de Orçamentos</a>
+    <a href="listar_orcamentos.php"><i class="fa-solid fa-list"></i> Histórico de Orçamentos</a>
   </nav>
   <!-- <button onclick="window.location.href='login.html'" class="logout-btn">
     <i class="fa-solid fa-right-from-bracket"></i> Sair

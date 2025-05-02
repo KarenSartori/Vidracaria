@@ -20,14 +20,10 @@ if ($resultado->num_rows > 0) {
     echo '<td>' . number_format($linha['peso_kg_m'], 3, ',', '.') . '</td>';
     echo '<td>R$ ' . number_format($linha['peso_kg_aluminio'], 2, ',', '.') . '</td>';
     echo '<td>
-        <a href="#" onclick="abrirModal(' . $linha['id'] . ')" title="Editar">
-          <i class="fa-solid fa-pen-to-square"></i>
-        </a>
-        &nbsp;&nbsp;
-        <a href="#" onclick="excluirMaterial(' . $linha['id'] . ')" title="Excluir">
-          <i class="fa-solid fa-trash" style="color: red;"></i>
-        </a>
-      </td>';
+            <button class="btn-editar" onclick="abrirModalEdicao(' . $linha['id'] . ')">
+              <i class="fa fa-edit"></i>
+            </button>
+          </td>';
     echo '</tr>';
   }
   echo '</tbody></table>';

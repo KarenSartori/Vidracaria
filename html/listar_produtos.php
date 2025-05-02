@@ -22,7 +22,9 @@
           <i class="fa-solid fa-right-from-bracket"></i> Sair
         </button>
       </div>
-      <h2>Lista de Produtos</h2>
+      <div class="header">
+        <h2>Lista de Produtos</h2>
+      </div>
       <section class="produtos-container">
       </section>
     </main>
