@@ -15,7 +15,11 @@ $result = $conn->query($sql);
 $orcamentos = [];
 
 while ($row = $result->fetch_assoc()) {
+  $data_original = $row['data_hora']; 
+  $timestamp = strtotime($data_original);
+  $row['data_hora'] = date('d/m/Y H:i', $timestamp);
   $orcamentos[] = $row;
 }
+
 
 echo json_encode($orcamentos);

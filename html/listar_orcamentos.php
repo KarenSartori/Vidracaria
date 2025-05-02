@@ -6,6 +6,8 @@
   <link rel="stylesheet" href="../css/menu.css">
   <link rel="stylesheet" href="../css/listar_orcamentos.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
 </head>
 <body>
   <div class="dashboard">
@@ -22,10 +24,11 @@
         </div>
 
         <div class="filtros">
-        <input type="text" id="busca" placeholder="Buscar por nome ou data...">
-        <select id="filtroCliente">
-            <option value="">Todos os clientes</option>
-        </select>
+          <input type="text" id="busca" placeholder="Buscar por nome">
+          <input type="text" id="filtroData" placeholder="Selecionar período" readonly>
+          <button id="limparFiltros" title="Limpar filtros">
+            <i class="fa-solid fa-xmark"></i>Limpar
+          </button>
         </div>
 
       <table class="orcamento-tabela" id="tabelaOrcamentos">
@@ -42,6 +45,9 @@
     </main>
   </div>
 
-    <script src="../js/listar_orcamentos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+  <script src="../js/listar_orcamentos.js"></script>
+
 </body>
 </html>

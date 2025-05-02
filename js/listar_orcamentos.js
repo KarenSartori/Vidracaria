@@ -3,19 +3,7 @@ let orcamentos = [];
 async function carregarOrcamentos() {
   const resp = await fetch('../php/listar_orcamentos.php');
   orcamentos = await resp.json();
-  popularClientes();
   renderizarTabela();
-}
-
-function popularClientes() {
-  const clientes = [...new Set(orcamentos.map(o => o.nome_cliente))];
-  const select = document.getElementById('filtroCliente');
-  clientes.forEach(nome => {
-    const opt = document.createElement('option');
-    opt.value = nome;
-    opt.textContent = nome;
-    select.appendChild(opt);
-  });
 }
 
 function renderizarTabela() {
@@ -23,13 +11,43 @@ function renderizarTabela() {
   tbody.innerHTML = '';
 
   const busca = document.getElementById('busca').value.toLowerCase();
-  const filtroCliente = document.getElementById('filtroCliente').value;
+  const dataRange = document.getElementById('filtroData').value;
 
   const resultados = orcamentos.filter(o => {
-    const matchBusca = o.nome_cliente.toLowerCase().includes(busca) ||
-                       o.data_hora.toLowerCase().includes(busca);
-    const matchCliente = filtroCliente === '' || o.nome_cliente === filtroCliente;
-    return matchBusca && matchCliente;
+    const matchBusca = o.nome_cliente.toLowerCase().includes(busca) 
+
+    let matchData = true;
+
+    if (dataRange) {
+      const partes = dataRange.split(/ a | até /);
+
+      const parseData = str => {
+        const [d, m, a] = str.split('/');
+        return new Date(`${a}-${m}-${d}T00:00:00`);
+      };
+
+      const [dataPart, horaPart] = o.data_hora.split(' ');
+      const [dia, mes, ano] = dataPart.split('/');
+      const [hora, minuto] = horaPart.split(':');
+      const dataOrcamento = new Date(Number(ano), Number(mes) - 1, Number(dia), Number(hora), Number(minuto));
+
+      if (partes.length === 1) {
+        const dataSelecionada = parseData(partes[0]);
+        matchData =
+          dataOrcamento.getFullYear() === dataSelecionada.getFullYear() &&
+          dataOrcamento.getMonth() === dataSelecionada.getMonth() &&
+          dataOrcamento.getDate() === dataSelecionada.getDate();
+      }
+
+      if (partes.length === 2) {
+        const inicio = parseData(partes[0]);
+        const fim = parseData(partes[1]);
+        const fimAjustado = new Date(fim.getTime() + 86399999); // fim do dia
+        matchData = dataOrcamento >= inicio && dataOrcamento <= fimAjustado;
+      }
+    }
+
+    return matchBusca && matchData;
   });
 
   resultados.forEach(o => {
@@ -51,16 +69,11 @@ function renderizarTabela() {
   });
 }
 
-function formatarData(data) {
-  const d = new Date(data);
-  return d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+function formatarData(dataStr) {
+  const [dataPart, horaPart] = dataStr.split(' ');
+  const [dia, mes, ano] = dataPart.split('/');
+  return `${dia}/${mes}/${ano} ${horaPart}`;
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  carregarOrcamentos();
-  document.getElementById('busca').addEventListener('input', renderizarTabela);
-  document.getElementById('filtroCliente').addEventListener('change', renderizarTabela);
-});
 
 async function deletarOrcamento(id, caminhoArquivo) {
   if (!confirm("Tem certeza que deseja excluir este orçamento?")) return;
@@ -79,3 +92,22 @@ async function deletarOrcamento(id, caminhoArquivo) {
   alert(result);
   carregarOrcamentos();
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  carregarOrcamentos();
+
+  document.getElementById('busca').addEventListener('input', renderizarTabela);
+  document.getElementById('filtroData').addEventListener('change', renderizarTabela);
+
+  flatpickr("#filtroData", {
+    mode: "range",
+    dateFormat: "d/m/Y",
+    locale: "pt"
+  });
+});
+
+document.getElementById('limparFiltros').addEventListener('click', () => {
+  document.getElementById('busca').value = '';
+  document.getElementById('filtroData')._flatpickr.clear();
+  renderizarTabela();
+});
