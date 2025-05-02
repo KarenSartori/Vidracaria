@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="../css/menu.css">
   <link rel="stylesheet" href="../css/listar_orcamentos.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
   <div class="dashboard">
@@ -27,11 +26,6 @@
         <select id="filtroCliente">
             <option value="">Todos os clientes</option>
         </select>
-        </div>
-        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-            <button class="btn-exportar" onclick="exportarParaExcel()">
-                <i class="fa-solid fa-file-excel"></i> Exportar para Excel
-            </button>
         </div>
 
       <table class="orcamento-tabela" id="tabelaOrcamentos">

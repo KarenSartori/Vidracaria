@@ -79,33 +79,3 @@ async function deletarOrcamento(id, caminhoArquivo) {
   alert(result);
   carregarOrcamentos();
 }
-
-function exportarParaExcel() {
-  const busca = document.getElementById('busca').value.toLowerCase();
-  const filtroCliente = document.getElementById('filtroCliente').value;
-
-  const dadosFiltrados = orcamentos.filter(o => {
-    const matchBusca = o.nome_cliente.toLowerCase().includes(busca) ||
-                       o.data_hora.toLowerCase().includes(busca);
-    const matchCliente = filtroCliente === '' || o.nome_cliente === filtroCliente;
-    return matchBusca && matchCliente;
-  });
-
-  if (dadosFiltrados.length === 0) {
-    alert("Nenhum orçamento para exportar.");
-    return;
-  }
-
-  const dadosFormatados = dadosFiltrados.map(o => ({
-    Cliente: o.nome_cliente,
-    'Data e Hora': formatarData(o.data_hora),
-    'Arquivo': o.nome_arquivo,
-    'Link PDF': location.origin + '/' + o.caminho_arquivo.replace(/^\.\.\//, '')
-  }));
-
-  const ws = XLSX.utils.json_to_sheet(dadosFormatados);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Orçamentos");
-
-  XLSX.writeFile(wb, "historico_orcamentos.xlsx");
-}
