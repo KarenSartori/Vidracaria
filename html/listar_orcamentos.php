@@ -25,7 +25,11 @@
 
         <div class="filtros">
           <input type="text" id="busca" placeholder="Buscar por nome">
-          <input type="text" id="filtroData" placeholder="Selecionar período" readonly>
+          <div class="input-icon-container">
+  <i class="fa-solid fa-calendar-days"></i>
+  <input type="text" id="filtroData" placeholder="Selecionar período" readonly>
+</div>
+
           <button id="limparFiltros" title="Limpar filtros">
             <i class="fa-solid fa-xmark"></i>Limpar
           </button>

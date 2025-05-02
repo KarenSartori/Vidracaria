@@ -28,6 +28,7 @@
     gap: 16px;
     margin-bottom: 30px;
     margin-top: 20px;
+    align-items: center;
 }
   
 .filtros input,
@@ -128,7 +129,7 @@
     border: none;
     padding: 6px 12px;
     font-size: 14px;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.2s ease;
     display: flex;
@@ -141,7 +142,31 @@
 .filtros button#limparFiltros:hover {
     background-color: #e74c3c; 
 }
+
+.input-icon-container {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 250px;
+}
   
+.input-icon-container i { 
+    font-size: 16px;
+    margin-right: 8px;
+    margin-left: 10px;
+}
+  
+#filtroData {
+    border: none;
+    outline: none;
+    background: transparent;
+    flex: 1;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+}
   
 @media (max-width: 768px) {
     .filtros {
