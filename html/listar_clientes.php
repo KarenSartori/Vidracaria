@@ -16,10 +16,6 @@
         <button class="btn-voltar-inicio" onclick="window.location.href='menu.php'">
           <i class="fa-solid fa-arrow-left"></i> Início
         </button>
-
-        <button class="logout-button" onclick="window.location.href='login.html'">
-          <i class="fa-solid fa-right-from-bracket"></i> Sair
-        </button>
       </div>
       <h2>Clientes Cadastrados</h2>
       <p id="total-clientes" style="text-align: center; font-size: 15px; color: #555; margin-top: -15px; margin-bottom: 20px;"></p>

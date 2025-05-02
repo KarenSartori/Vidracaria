@@ -17,10 +17,6 @@
         <button class="btn-voltar-inicio" onclick="window.location.href='menu.php'">
           <i class="fa-solid fa-arrow-left"></i> Início
         </button>
-
-        <button class="logout-button" onclick="window.location.href='login.html'">
-          <i class="fa-solid fa-right-from-bracket"></i> Sair
-        </button>
       </div>
       <div class="header">
         <h2>Lista de Produtos</h2>

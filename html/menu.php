@@ -11,12 +11,6 @@
   <?php include 'menu_lateral.php'; ?>
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="main-content">
-      <header class="main-header">
-        <button class="logout-button" onclick="window.location.href='login.html'">
-          <i class="fa-solid fa-right-from-bracket"></i> Sair
-        </button>
-      </header>
-
       <section class="cards">
         <div class="card" onclick="location.href='cadastro_cliente.php'">
           <i class="fa-solid fa-user-plus"></i>

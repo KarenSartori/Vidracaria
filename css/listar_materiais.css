@@ -1,31 +1,34 @@
-.main-content {
-  padding: 30px;
-}
-  
 table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 8px;
   margin-top: 20px;
-  background: #fff;
+  background: none;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
-  
-th, td {
-  padding: 12px;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
-}
-  
+
 th {
   background-color: #1A3439;
   color: white;
+  padding: 14px;
+  text-align: center;
 }
-  
+
 td {
+  background-color: #fff;
+  padding: 14px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
   color: #333;
 }
-  
+
+tbody tr {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease;
+}
+
+/* MODAL EDITAR */
 #modal-editar {
   display: none;
   position: fixed;
@@ -43,29 +46,29 @@ td {
 }
 
 #modal-editar h3 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  font-size: 22px;
+  font-size: 24px;
   color: #1A3439;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 10px;
+  margin-bottom: 18px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 8px;
 }
 
 #modal-editar label {
   display: block;
+  font-size: 14px;
   font-weight: bold;
-  margin-bottom: 6px;
+  color: #444;
   margin-top: 14px;
-  color: #333;
+  margin-bottom: 6px;
 }
 
 #modal-editar input {
   width: 100%;
   padding: 10px;
-  border-radius: 10px;
+  font-size: 14px;
+  border-radius: 8px;
   border: 1px solid #ccc;
   margin-bottom: 10px;
-  font-size: 14px;
 }
 
 #modal-editar .btn-salvar {
@@ -85,6 +88,7 @@ td {
   background-color: #265d68;
 }
 
+/* Overlay do modal */
 #overlay {
   display: none;
   position: fixed;
@@ -94,22 +98,24 @@ td {
   z-index: 900;
 }
 
+/* Fechar Modal */
 .fechar-modal {
   position: absolute;
-  top: 12px;
+  top: 10px;
   right: 14px;
-  font-size: 22px;
-  background: none;
-  border: none;
+  font-size: 24px;
   color: #999;
+  background: transparent;
+  border: none;
   cursor: pointer;
   transition: color 0.2s ease;
 }
-  
+
 .fechar-modal:hover {
   color: #1A3439;
 }
 
+/* Botão principal de salvar */
 .btn-salvar {
   background-color: #1A3439;
   color: white;
@@ -122,17 +128,17 @@ td {
   transition: background-color 0.3s ease, transform 0.2s ease;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
-  
+
 .btn-salvar:hover {
   background-color: #265d68;
   transform: translateY(-2px);
 }
 
+/* Título da página e botão de cadastro */
 .main-content h2 {
   margin-top: 30px;
 }
 
-/* Título e botão alinhados e com estilo elegante */
 .header-materiais {
   display: flex;
   justify-content: space-between;
@@ -178,94 +184,7 @@ td {
   transform: translateY(-2px);
 }
 
-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 8px;
-  margin-top: 20px;
-  background: none;
-}
-
-th {
-  background-color: #1A3439;
-  color: white;
-  padding: 14px;
-  text-align: center;
-}
-
-td {
-  background-color: #fff;
-  padding: 14px;
-  text-align: center;
-  border-bottom: 1px solid #eee;
-  color: #333;
-}
-
-tbody tr {
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-  transition: transform 0.2s ease;
-}
-
-#modal-editar {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 400px;
-  transform: translate(-50%, -50%);
-  background: #fff;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
-  z-index: 1000;
-}
-
-#overlay {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 900;
-}
-
-#modal-editar h3 {
-  font-size: 24px;
-  color: #1A3439;
-  margin-bottom: 18px;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 8px;
-}
-
-#modal-editar label {
-  font-size: 14px;
-  color: #444;
-  margin-top: 14px;
-  margin-bottom: 6px;
-}
-
-#modal-editar input {
-  border: 1px solid #ccc;
-  padding: 10px;
-  font-size: 14px;
-  border-radius: 8px;
-  width: 100%;
-}
-
-.fechar-modal {
-  top: 10px;
-  right: 14px;
-  font-size: 24px;
-  color: #999;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-}
-
-.fechar-modal:hover {
-  color: #1A3439;
-}
-
+/* Botão editar */
 .btn-editar {
   background-color: #ffffff;
   border: 1px solid #1A3439;
