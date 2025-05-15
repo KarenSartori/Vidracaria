@@ -144,3 +144,14 @@ th {
   border-color: #1a3439;
   box-shadow: 0 0 0 2px rgba(26, 52, 57, 0.2);
 }
+
+#observacaoProduto {
+  width: 100%;
+  max-width: 600px;
+  height: 80px;
+  resize: none;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}

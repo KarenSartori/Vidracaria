@@ -58,6 +58,21 @@
               <input type="number" id="alturaVidro" step="0.01">
             </div>
 
+            <div id="campoFechadura" style="display: none;">
+              <label for="fechaduraSelecionada">Escolha a fechadura:</label>
+              <select id="fechaduraSelecionada" class="form-control"></select>
+            </div>
+
+            <div id="campoKit" style="display: none;">
+              <label for="kitSelecionado">Kit:</label>
+              <select id="kitSelecionado" class="form-control"></select>
+            </div>
+
+            <div class="form-group">
+              <label for="observacaoProduto">Observações do produto:</label>
+              <textarea id="observacaoProduto" rows="3" placeholder="Observações..."></textarea>
+            </div>
+
             <button onclick="calcularTotal()">Adicionar Produto ao Orçamento</button>
 
           </div>

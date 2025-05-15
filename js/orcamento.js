@@ -10,6 +10,11 @@ function limparOrcamento() {
   const larguraBox1 = document.getElementById('larguraBox1');
   const larguraBox2 = document.getElementById('larguraBox2');
   const alturaVidro = document.getElementById('alturaVidro');
+  const observacaoProduto = document.getElementById('observacaoProduto');
+  const fechaduraSelect = document.getElementById('fechaduraSelecionada');
+  const campoFechadura = document.getElementById('campoFechadura');
+  const kitSelect = document.getElementById('kitSelecionado');
+  const campoKit = document.getElementById('campoKit');
 
   const campoLarguraSimples = document.getElementById('campoLarguraSimples');
   const campoLarguraDupla = document.getElementById('campoLarguraDupla');
@@ -34,9 +39,17 @@ function limparOrcamento() {
   if (larguraBox1) larguraBox1.value = '';
   if (larguraBox2) larguraBox2.value = '';
   if (alturaVidro) alturaVidro.value = '';
+  if (observacaoProduto) observacaoProduto.value = '';
+  if (fechaduraSelect) fechaduraSelect.innerHTML = '';
+  if (kitSelect) kitSelect.innerHTML = '';
+
+  if (campoFechadura) campoFechadura.style.display = 'none';
+  if (campoKit) campoKit.style.display = 'none';
+
   if (campoLarguraSimples) campoLarguraSimples.style.display = 'block';
   if (campoLarguraDupla) campoLarguraDupla.style.display = 'none';
   if (campoAltura) campoAltura.style.display = 'block';
+
   if (areaMateriais) areaMateriais.classList.add('hidden');
   if (areaResultados) areaResultados.classList.add('hidden');
   if (tabelaMateriais) tabelaMateriais.innerHTML = '';
@@ -45,7 +58,6 @@ function limparOrcamento() {
   if (resultadoFinal) resultadoFinal.innerHTML = '';
   if (areaResultadosContainer) areaResultadosContainer.innerHTML = '';
 }
-
 
 async function carregarClientes() {
   try {
@@ -127,8 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-
-
 async function carregarProdutos() {
   const resp = await fetch('../php/listar_produtos.php');
   const produtos = await resp.json();
@@ -172,6 +182,7 @@ async function carregarMateriaisDoProduto() {
   });
 
   document.getElementById('areaMateriais').classList.remove('hidden');
+
   const produtoSelect = document.getElementById('produto');
   const produtoNome = produtoSelect.options[produtoSelect.selectedIndex]?.text.toLowerCase() || '';
 
@@ -192,6 +203,53 @@ async function carregarMateriaisDoProduto() {
     alturaInput.value = ""; 
   }
 
+  const selectFechadura = document.getElementById('fechaduraSelecionada');
+  const campoFechadura = document.getElementById('campoFechadura');
+  selectFechadura.innerHTML = '';
+  const fechaduras = materiais.filter(m => m.tipo === 'fechadura');
+
+  if (fechaduras.length > 0) {
+    campoFechadura.style.display = 'block';
+
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = 'Selecione uma fechadura';
+    selectFechadura.appendChild(defaultOption);
+
+    fechaduras.forEach(f => {
+      const option = document.createElement('option');
+      option.value = f.id;
+      option.textContent = f.nome;
+      option.dataset.valor = f.peso_kg_aluminio;
+      selectFechadura.appendChild(option);
+    });
+  } else {
+    campoFechadura.style.display = 'none';
+  }
+
+  const selectKit = document.getElementById('kitSelecionado');
+  const campoKit = document.getElementById('campoKit');
+  selectKit.innerHTML = '';
+  const kits = materiais.filter(m => m.tipo === 'kit');
+
+  if (kits.length > 0) {
+    campoKit.style.display = 'block';
+
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = 'Selecione um kit';
+    selectKit.appendChild(defaultOption);
+
+    kits.forEach(k => {
+      const option = document.createElement('option');
+      option.value = k.id;
+      option.textContent = k.nome;
+      option.dataset.valor = k.peso_kg_aluminio;
+      selectKit.appendChild(option);
+    });
+  } else {
+    campoKit.style.display = 'none';
+  }
 }
 
 function calcularTotal() {
@@ -221,13 +279,18 @@ function calcularTotal() {
     }
   }
 
+  const idFechaduraEscolhida = document.getElementById('fechaduraSelecionada')?.value;
+  const idKitEscolhido = document.getElementById('kitSelecionado')?.value;
+
   const aluminio = materiais.filter(m => m.tipo === 'aluminio');
   const vidros = materiais.filter(m => m.tipo === 'vidro');
-  const fechaduras = materiais.filter(m => m.tipo === 'fechadura');
-  const kits = materiais.filter(m => m.tipo === 'kit');
+  const fechaduraSelecionada = materiais.find(m => String(m.id) === idFechaduraEscolhida && m.tipo === 'fechadura');
+  const kitSelecionado = materiais.find(m => String(m.id) === idKitEscolhido && m.tipo === 'kit');
 
   let totalAluminio = 0;
   let totalVidro = 0;
+  let totalFechadura = 0;
+  let totalKit = 0;
 
   const linhasTotais = [];
 
@@ -265,53 +328,59 @@ function calcularTotal() {
     });
   });
 
-  kits.forEach(kit => {
-    const precoKit = parseFloat(kit.peso_kg_aluminio);
-    linhasTotais.push({
-      label: `${kit.nome}`,
-      valor: precoKit.toFixed(2),
-      calculo: `Valor fixo`
-    });
-  });
-
   if (!produtoNome.includes("box") && totalAluminio > 0) {
-    linhasTotais.push({ label: 'Total Alumínio', valor: totalAluminio, calculo: '' });
+    linhasTotais.push({ label: 'Total Alumínio', valor: totalAluminio.toFixed(2), calculo: '' });
   }
 
-  linhasTotais.push({ label: 'Total Vidro', valor: totalVidro, calculo: '' });
+  linhasTotais.push({ label: 'Total Vidro', valor: totalVidro.toFixed(2), calculo: '' });
 
-  fechaduras.forEach(mat => {
-    const valor = parseFloat(mat.peso_kg_aluminio);
+  if (fechaduraSelecionada) {
+    totalFechadura = parseFloat(fechaduraSelecionada.peso_kg_aluminio);
     linhasTotais.push({
-      label: `Total com ${mat.nome}`,
-      valor: totalAluminio + totalVidro + valor,
-      calculo: ''
+      label: `Fechadura: ${fechaduraSelecionada.nome}`,
+      valor: totalFechadura.toFixed(2),
+      calculo: 'Valor fixo'
     });
+  }
+
+  if (kitSelecionado) {
+    totalKit = parseFloat(kitSelecionado.peso_kg_aluminio);
+    linhasTotais.push({
+      label: `Kit: ${kitSelecionado.nome}`,
+      valor: totalKit.toFixed(2),
+      calculo: 'Valor fixo'
+    });
+  }
+
+  const totalGeral = totalAluminio + totalVidro + totalFechadura + totalKit;
+  linhasTotais.push({
+    label: 'Total Geral',
+    valor: totalGeral.toFixed(2),
+    calculo: ''
   });
 
-  kits.forEach(kit => {
-    const precoKit = parseFloat(kit.peso_kg_aluminio);
-    const vidrosBox = largura * 2 * 1.9 * (vidros[0] ? parseFloat(vidros[0].peso_kg_aluminio) : 0);
-    linhasTotais.push({
-      label: `Total com ${kit.nome}`,
-      valor: totalAluminio + vidrosBox + precoKit,
-      calculo: ''
-    });
-  });
+  const materiaisSelecionados = [
+    ...aluminio,
+    ...vidros,
+    ...(fechaduraSelecionada ? [fechaduraSelecionada] : []),
+    ...(kitSelecionado ? [kitSelecionado] : [])
+  ];
+
+  const observacao = document.getElementById('observacaoProduto')?.value || '';
 
   orcamentoProdutos.push({
     nomeProduto: produtoNome,
     largura,
     altura,
-    materiais: [...materiais],
+    materiais: materiaisSelecionados,
     totais: linhasTotais,
+    observacao,
     foto: `fotos/${produtoNome.replaceAll(' ', '_')}.png`
   });
 
   renderizarTabelaProduto(orcamentoProdutos.length - 1);
   atualizarTabelaResumo();
   limparInputsOrcamento();
-
 }
 
 async function gerarPDF() {
@@ -396,12 +465,10 @@ async function gerarPDF() {
     y += 40;
 
     for (const [index, item] of orcamentoProdutos.entries()) {
-      // Cabeçalho do produto
       doc.setFont(undefined, 'bold');
       doc.text(`Produto ${index + 1}:`, 10, y);
       doc.text(`${item.nomeProduto.toUpperCase()}`, 30, y);
 
-      // Imagem ao lado
       if (item.foto) {
         try {
           const response = await fetch(item.foto);
@@ -412,7 +479,7 @@ async function gerarPDF() {
               reader.onloadend = () => resolve(reader.result);
               reader.readAsDataURL(blob);
             });
-            doc.addImage(base64, 'JPEG', 150, y - 5, 25, 20); // imagem menor e lateral
+            doc.addImage(base64, 'JPEG', 150, y - 5, 25, 20);
           }
         } catch (err) {
           console.warn(`Erro ao carregar imagem ${item.foto}`, err);
@@ -426,9 +493,23 @@ async function gerarPDF() {
       doc.text(`Altura: ${item.altura} m`, 10, y);
       y += 6;
 
+      if (item.observacao && item.observacao.trim() !== '') {
+        doc.setFont(undefined, 'italic');
+        const observacoes = item.observacao.split('\n');
+        observacoes.forEach(line => {
+          doc.text(`Obs.: ${line}`, 10, y);
+          y += 5;
+        });
+        doc.setFont(undefined, 'normal');
+      }
+
       const headers = [['Descrição', 'Valor (R$)']];
       const body = item.totais
-        .filter(linha => linha.label.toLowerCase().includes('total com'))
+        .filter(linha =>
+          linha.label.toLowerCase().startsWith('total') ||
+          linha.label.toLowerCase().startsWith('fechadura') ||
+          linha.label.toLowerCase().startsWith('kit')
+        )
         .map(linha => [
           linha.label,
           `R$ ${parseFloat(linha.valor).toFixed(2)}`
@@ -442,8 +523,15 @@ async function gerarPDF() {
           theme: 'grid',
           margin: { left: 10, right: 10 },
           headStyles: { fillColor: [26, 52, 57], textColor: 255 },
-          bodyStyles: { fontSize: 10 }
-        });
+          bodyStyles: { fontSize: 10 },
+          didParseCell: function (data) {
+            const linha = data.row.raw?.[0]?.toLowerCase?.() || '';
+            if (linha.includes('total geral')) {
+              data.cell.styles.fillColor = [255, 250, 200]; 
+              data.cell.styles.fontStyle = 'bold';
+            }
+          }
+        });        
 
         y = doc.lastAutoTable.finalY + 20;
       } else {
@@ -452,11 +540,49 @@ async function gerarPDF() {
       }
     }
 
+    let totalOrcamento = 0;
+    orcamentoProdutos.forEach(prod => {
+      const totalLinha = prod.totais.find(l => l.label.toLowerCase() === 'total geral');
+      if (totalLinha) {
+        totalOrcamento += parseFloat(totalLinha.valor);
+      }
+    });
+
+    let yAtual = (doc.lastAutoTable?.finalY || 120) + 10;
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const alturaRodape = 30;
+    const alturaTabelaTotal = 20;
+
+    if (yAtual + alturaTabelaTotal + alturaRodape > pageHeight) {
+      doc.addPage();
+      yAtual = 40;
+    }
+
+    doc.autoTable({
+      startY: yAtual,
+      theme: 'grid',
+      head: [['TOTAL DO ORÇAMENTO']],
+      body: [[`R$ ${totalOrcamento.toFixed(2)}`]],
+      styles: {
+        fontSize: 12,
+        halign: 'center',
+        fillColor: [240, 240, 240]
+      },
+      headStyles: {
+        fillColor: [26, 52, 57],
+        textColor: 255,
+        fontStyle: 'bold'
+      },
+      margin: { left: 130, right: 10 },
+      tableWidth: 70
+    });
+
+    const rodapeY = pageHeight - 30;
     doc.setFontSize(10);
     doc.setFont(undefined, 'normal');
-    doc.text('Vidraçaria Araras', 10, 280);
-    doc.text('Email: vidrararas@hotmail.com | Telefone: (19) 3547-8430', 10, 286);
-    doc.text('Endereço: Rua Arthur Nogueira, 265, Vila Europa, Araras-SP CEP: 13.604-020', 10, 292);
+    doc.text('Vidraçaria Araras', 10, rodapeY);
+    doc.text('Email: vidrararas@hotmail.com | Telefone: (19) 3547-8430', 10, rodapeY + 6);
+    doc.text('Endereço: Rua Arthur Nogueira, 265, Vila Europa, Araras-SP CEP: 13.604-020', 10, rodapeY + 12);
 
     doc.save('orcamento_vidracaria.pdf');
 
@@ -481,9 +607,6 @@ async function gerarPDF() {
     });
   };
 }
-
-
-
 
 function gerarPDFSemLogo(doc, clienteNome, dataHora) {
   let y = 20;
@@ -537,7 +660,6 @@ function gerarPDFSemLogo(doc, clienteNome, dataHora) {
   doc.save('orcamento_vidracaria.pdf');
 }
 
-
 function removerProduto(index) {
   orcamentoProdutos.splice(index, 1);
 
@@ -554,24 +676,19 @@ function renderizarTabelaProduto(index) {
   const novaTabela = document.createElement('div');
   novaTabela.classList.add('orcamento-tabela-produto');
 
-  const imagem = document.createElement('img');
-  imagem.src = produto.foto;
-  imagem.alt = 'Foto do produto';
-  imagem.style.width = '60px';
-  imagem.style.marginRight = '10px';
-
+  // Título
   const titulo = document.createElement('h3');
   titulo.textContent = `Produto: ${produto.nomeProduto.toUpperCase()} - ${produto.largura}m x ${produto.altura}m`;
+  novaTabela.appendChild(titulo);
 
-  const wrapper = document.createElement('div');
-  wrapper.style.display = 'flex';
-  wrapper.style.alignItems = 'center';
-  wrapper.appendChild(imagem);
-  wrapper.appendChild(titulo);
+  // Container da tabela e imagem
+  const linhaConteudo = document.createElement('div');
+  linhaConteudo.style.display = 'flex';
+  linhaConteudo.style.alignItems = 'flex-start';
+  linhaConteudo.style.justifyContent = 'space-between';
+  linhaConteudo.style.gap = '20px';
 
-  novaTabela.appendChild(wrapper);
-
-
+  // Tabela
   const tabela = document.createElement('table');
   tabela.innerHTML = `
     <thead>
@@ -583,7 +700,7 @@ function renderizarTabelaProduto(index) {
     </thead>
     <tbody>
       ${produto.totais.map(item => `
-        <tr>
+        <tr style="${item.label.toLowerCase() === 'total geral' ? 'background-color: #fffce5; font-weight: bold;' : ''}">
           <td>${item.label}</td>
           <td>${item.calculo || '-'}</td>
           <td><strong>R$ ${parseFloat(item.valor).toFixed(2)}</strong></td>
@@ -592,8 +709,30 @@ function renderizarTabelaProduto(index) {
     </tbody>
   `;
 
-  novaTabela.appendChild(titulo);
-  novaTabela.appendChild(tabela);
+  // Imagem
+  const imagem = document.createElement('img');
+  imagem.src = produto.foto;
+  imagem.alt = 'Foto do produto';
+  imagem.style.width = '200px';
+  imagem.style.height = 'auto';
+  imagem.style.objectFit = 'contain';
+  imagem.style.border = '1px solid #ccc';
+  imagem.style.borderRadius = '4px';
+
+  // Adiciona na ordem: TABELA → IMAGEM (imagem à direita)
+  linhaConteudo.appendChild(tabela);
+  linhaConteudo.appendChild(imagem);
+
+  novaTabela.appendChild(linhaConteudo);
+
+  // Observações
+  if (produto.observacao && produto.observacao.trim() !== '') {
+    const obsDiv = document.createElement('div');
+    obsDiv.style.marginTop = '10px';
+    obsDiv.innerHTML = `<strong>Observações:</strong><br>${produto.observacao.replace(/\n/g, '<br>')}`;
+    novaTabela.appendChild(obsDiv);
+  }
+
   container.appendChild(novaTabela);
 }
 
@@ -621,6 +760,11 @@ function limparInputsOrcamento() {
   const larguraBox1 = document.getElementById('larguraBox1');
   const larguraBox2 = document.getElementById('larguraBox2');
   const alturaVidro = document.getElementById('alturaVidro');
+  const observacaoProduto = document.getElementById('observacaoProduto');
+  const fechaduraSelect = document.getElementById('fechaduraSelecionada');
+  const campoFechadura = document.getElementById('campoFechadura');
+  const kitSelect = document.getElementById('kitSelecionado');
+  const campoKit = document.getElementById('campoKit');
   const areaMateriais = document.getElementById('areaMateriais');
   const tabelaMateriais = document.querySelector('#tabelaMateriais tbody');
   const tabelaResultados = document.querySelector('#tabelaResultados tbody');
@@ -633,6 +777,12 @@ function limparInputsOrcamento() {
   if (larguraBox1) larguraBox1.value = '';
   if (larguraBox2) larguraBox2.value = '';
   if (alturaVidro) alturaVidro.value = '';
+  if (observacaoProduto) observacaoProduto.value = '';
+  if (fechaduraSelect) fechaduraSelect.innerHTML = '';
+  if (kitSelect) kitSelect.innerHTML = '';
+
+  if (campoFechadura) campoFechadura.style.display = 'none';
+  if (campoKit) campoKit.style.display = 'none';
 
   if (produtoSelect) produtoSelect.selectedIndex = 0;
 
