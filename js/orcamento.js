@@ -304,7 +304,8 @@ function calcularTotal() {
     largura,
     altura,
     materiais: [...materiais],
-    totais: linhasTotais
+    totais: linhasTotais,
+    foto: `fotos/${produtoNome.replaceAll(' ', '_')}.png`
   });
 
   renderizarTabelaProduto(orcamentoProdutos.length - 1);
@@ -312,13 +313,6 @@ function calcularTotal() {
   limparInputsOrcamento();
 
 }
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  carregarProdutos();
-  carregarClientes();
-});
-
 
 async function gerarPDF() {
   const jsPDF = window.jspdf.jsPDF;
@@ -342,7 +336,7 @@ async function gerarPDF() {
   const logo = new Image();
   logo.src = '../imagens/image.png';
 
-  logo.onload = () => {
+  logo.onload = async () => {
     doc.addImage(logo, 'PNG', 10, 10, 40, 20);
 
     doc.setFont('helvetica');
@@ -401,15 +395,36 @@ async function gerarPDF() {
 
     y += 40;
 
-    orcamentoProdutos.forEach((item, index) => {
+    for (const [index, item] of orcamentoProdutos.entries()) {
+      // Cabeçalho do produto
       doc.setFont(undefined, 'bold');
-      doc.text(`Produto ${index + 1}: ${item.nomeProduto.toUpperCase()}`, 10, y);
+      doc.text(`Produto ${index + 1}:`, 10, y);
+      doc.text(`${item.nomeProduto.toUpperCase()}`, 30, y);
+
+      // Imagem ao lado
+      if (item.foto) {
+        try {
+          const response = await fetch(item.foto);
+          if (response.ok) {
+            const blob = await response.blob();
+            const reader = new FileReader();
+            const base64 = await new Promise(resolve => {
+              reader.onloadend = () => resolve(reader.result);
+              reader.readAsDataURL(blob);
+            });
+            doc.addImage(base64, 'JPEG', 150, y - 5, 25, 20); // imagem menor e lateral
+          }
+        } catch (err) {
+          console.warn(`Erro ao carregar imagem ${item.foto}`, err);
+        }
+      }
+
       y += 6;
       doc.setFont(undefined, 'normal');
       doc.text(`Largura: ${item.largura} m`, 10, y);
       y += 6;
       doc.text(`Altura: ${item.altura} m`, 10, y);
-      y += 8;
+      y += 6;
 
       const headers = [['Descrição', 'Valor (R$)']];
       const body = item.totais
@@ -435,7 +450,7 @@ async function gerarPDF() {
         doc.text('Nenhum total encontrado.', 10, y);
         y += 10;
       }
-    });
+    }
 
     doc.setFontSize(10);
     doc.setFont(undefined, 'normal');
@@ -466,6 +481,8 @@ async function gerarPDF() {
     });
   };
 }
+
+
 
 
 function gerarPDFSemLogo(doc, clienteNome, dataHora) {
@@ -537,8 +554,23 @@ function renderizarTabelaProduto(index) {
   const novaTabela = document.createElement('div');
   novaTabela.classList.add('orcamento-tabela-produto');
 
+  const imagem = document.createElement('img');
+  imagem.src = produto.foto;
+  imagem.alt = 'Foto do produto';
+  imagem.style.width = '60px';
+  imagem.style.marginRight = '10px';
+
   const titulo = document.createElement('h3');
   titulo.textContent = `Produto: ${produto.nomeProduto.toUpperCase()} - ${produto.largura}m x ${produto.altura}m`;
+
+  const wrapper = document.createElement('div');
+  wrapper.style.display = 'flex';
+  wrapper.style.alignItems = 'center';
+  wrapper.appendChild(imagem);
+  wrapper.appendChild(titulo);
+
+  novaTabela.appendChild(wrapper);
+
 
   const tabela = document.createElement('table');
   tabela.innerHTML = `

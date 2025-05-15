@@ -23,8 +23,10 @@ while ($produto = $result->fetch_assoc()) {
   }
 
   $produto['materiais'] = $materiais;
+  $produto['foto'] = 'fotos/' . str_replace(' ', '_', strtolower($produto['nome'])) . '.png';
   $produtos[] = $produto;
 }
+
 
 echo json_encode($produtos, JSON_PRETTY_PRINT);
 $conn->close();
