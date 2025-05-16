@@ -297,10 +297,23 @@ function calcularTotal() {
   if (!produtoNome.includes("box")) {
     aluminio.forEach(mat => {
       let metro = 0;
-      if (mat.tipo_calculo === "largura*2") metro = largura * 2;
-      else if (mat.tipo_calculo === "altura*2") metro = altura * 2;
-      else if (mat.tipo_calculo === "largura") metro = largura;
-      else if (mat.tipo_calculo === "altura") metro = altura;
+
+      const tipo = mat.tipo_calculo;
+
+      if (tipo === "largura*2") metro = largura * 2;
+      else if (tipo === "altura*2") metro = altura * 2;
+      else if (tipo === "altura*3") metro = altura * 3;
+      else if (tipo === "largura") metro = largura;
+      else if (tipo === "altura") metro = altura;
+      else {
+        const valorFixo = parseFloat(tipo);
+        if (!isNaN(valorFixo)) {
+          metro = valorFixo;
+        } else {
+          console.warn(`Tipo de cálculo desconhecido para o material "${mat.nome}": ${tipo}`);
+          return;
+        }
+      }
 
       const peso = parseFloat(mat.peso_kg_m);
       const precoKg = parseFloat(mat.peso_kg_aluminio);
@@ -375,7 +388,7 @@ function calcularTotal() {
     materiais: materiaisSelecionados,
     totais: linhasTotais,
     observacao,
-    foto: `fotos/${produtoNome.replaceAll(' ', '_')}.png`
+    foto: `fotos/${produtoNome.replaceAll(' ', '_')}.jpg`
   });
 
   renderizarTabelaProduto(orcamentoProdutos.length - 1);
